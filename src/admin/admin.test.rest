@@ -1,0 +1,10 @@
+POST http://localhost:5000/admin
+Content-Type: application/json
+
+{
+    "name": "Bisrat",
+    "phone": "1234567890",
+    "password": "123456",
+    "status": "active",
+    "role": "admin"  
+}
