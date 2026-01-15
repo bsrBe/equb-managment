@@ -1,1 +1,4 @@
-export class CreatePayoutDto {}
+export class CreatePayoutDto {
+    equbId: string;
+    periodId: string;
+}

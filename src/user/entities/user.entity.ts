@@ -13,7 +13,7 @@ export class User {
     phone: string;
 
     @Column({nullable: true})
-    address: string;
+    address?: string;
 
     @CreateDateColumn()
     createdAt: Date;

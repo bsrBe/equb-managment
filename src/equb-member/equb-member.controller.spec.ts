@@ -8,7 +8,19 @@ describe('EqubMemberController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [EqubMemberController],
-      providers: [EqubMemberService],
+      providers: [
+        {
+          provide: EqubMemberService,
+          useValue: {
+            create: jest.fn(),
+            findAll: jest.fn(),
+            findOne: jest.fn(),
+            update: jest.fn(),
+            remove: jest.fn(),
+            findByEqub: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     controller = module.get<EqubMemberController>(EqubMemberController);

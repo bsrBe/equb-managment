@@ -8,7 +8,18 @@ describe('PayoutController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PayoutController],
-      providers: [PayoutService],
+      providers: [
+        {
+          provide: PayoutService,
+          useValue: {
+            selectRandomWinner: jest.fn(),
+            recordManualWinner: jest.fn(),
+            findAll: jest.fn(),
+            findOne: jest.fn(),
+            remove: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     controller = module.get<PayoutController>(PayoutController);

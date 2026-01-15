@@ -12,12 +12,15 @@ import { EqubMemberModule } from './equb-member/equb-member.module';
 import { AttendanceModule } from './attendance/attendance.module';
 import { PayoutModule } from './payout/payout.module';
 import { AuthModule } from './auth/auth.module';
+import { ReportingModule } from './reporting/reporting.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
    imports : [
       ConfigModule.forRoot({
         isGlobal: true,
       }),
+      ScheduleModule.forRoot(),
       TypeOrmModule.forRoot(dataSourceOptions),
        AdminModule,
        UserModule,
@@ -26,6 +29,7 @@ import { AuthModule } from './auth/auth.module';
        AttendanceModule,
        PayoutModule,
        AuthModule,
+       ReportingModule,
     ],
   controllers: [AppController],
   providers: [AppService],

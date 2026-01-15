@@ -1,6 +1,7 @@
-import { EqubMember } from 'src/equb-member/entities/equb-member.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Period } from './period.entity';
 import { Admin } from '../../admin/entities/admin.entity';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn , OneToMany } from 'typeorm';
+import { EqubMember } from 'src/equb-member/entities/equb-member.entity';
 
 
 @Entity()
@@ -15,10 +16,10 @@ export class Equb {
 
   @OneToMany(() => EqubMember, em => em.equb)
   members: EqubMember[];
-  
-  @Column()
-  adminId: string;
 
+  @OneToMany(() => Period, (period) => period.equb)
+  periods: Period[];
+  
   @Column()
   name: string;
 
@@ -33,6 +34,9 @@ export class Equb {
 
   @Column({ default: 'ACTIVE' })
   status: 'ACTIVE' | 'COMPLETED';
+
+  @Column({ default: 1 })
+  currentRound: number;
 
   @CreateDateColumn()
   createdAt: Date;

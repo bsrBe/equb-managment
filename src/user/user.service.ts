@@ -4,6 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PaginationParamsDto } from '../common/dto/pagination.dto';
+import { PaginatedResponse } from '../common/interfaces/paginated-response.interface';
 
 @Injectable()
 export class UserService {
@@ -11,21 +13,39 @@ export class UserService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);
-    return this.userRepository.save(user);
+    const saved = await this.userRepository.save(user);
+    return saved;
   }
 
-  findAll() {
-    return this.userRepository.find();
+  async findAll(pagination: PaginationParamsDto): Promise<PaginatedResponse<User>> {
+    const [data, totalItems] = await this.userRepository.findAndCount({
+      skip: pagination.skip,
+      take: pagination.limit,
+    });
+
+    const totalPages = Math.ceil(totalItems / pagination.limit);
+
+    return {
+      data,
+      meta: {
+        totalItems,
+        itemCount: data.length,
+        itemsPerPage: pagination.limit,
+        totalPages,
+        currentPage: pagination.page,
+      },
+    };
   }
 
   findOne(id: string) {
     return this.userRepository.findOne({ where: { id } });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return this.userRepository.update(id, updateUserDto);
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    await this.userRepository.update(id, updateUserDto);
+    return this.findOne(id);
   }
 
   remove(id: string) {

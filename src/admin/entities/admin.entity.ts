@@ -1,4 +1,4 @@
-import {Entity , PrimaryGeneratedColumn , Column} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, DeleteDateColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Admin {
@@ -17,9 +17,18 @@ export class Admin {
     @Column()
     password: string;
 
-    @Column({default: 'active'})
-    status: 'active' | 'inactive';
-    
-    @Column({default: 'admin'})
-    role: 'admin' | 'super-admin';
+    @Column({ default: 'active' })
+    status?: 'active' | 'inactive';
+
+    @Column({ default: 'admin' })
+    role?: 'admin' | 'super-admin';
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @DeleteDateColumn({ nullable: true })
+    deletedAt: Date;
 }

@@ -1,6 +1,7 @@
 import { Entity , PrimaryGeneratedColumn , Column , CreateDateColumn , UpdateDateColumn , DeleteDateColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Equb } from "src/equb/entities/equb.entity";
 import { EqubMember } from "src/equb-member/entities/equb-member.entity";
+import { Period } from "src/equb/entities/period.entity";
 
 @Entity()
 export class Payout {
@@ -24,8 +25,12 @@ export class Payout {
     @Column()
     amount: number;
 
+    @ManyToOne(() => Period, (period) => period.payouts, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'periodId' })
+    period: Period;
+
     @Column()
-    periodKey: string;
+    periodId: string;
 
     @Column()
     payoutDate: Date;

@@ -9,15 +9,19 @@ export class CreateAdminDto {
     @IsNotEmpty()
     phone: string;
 
+    @IsEmail()
+    @IsNotEmpty()
+    email: string;
+
     @IsString()
     @IsNotEmpty()
     password: string;
 
     @IsString()
     @IsOptional()
-    status: 'active' | 'inactive';
+    status?: 'active' | 'inactive';
 
     @IsString()
     @IsOptional()
-    role: 'admin' | 'super-admin';
+    role?: 'admin' | 'super-admin';
 }

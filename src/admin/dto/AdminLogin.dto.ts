@@ -9,9 +9,9 @@ export class AdminLoginDto {
   password: string;
 }
 
+import { Admin } from '../entities/admin.entity';
+
 export class AdminResponseDto {
-  id: string;
-  phone: string;
-  status: 'ACTIVE' | 'SUSPENDED';
-  createdAt: Date;
+  accessToken: string;
+  admin: Omit<Admin, 'password'>;
 }
