@@ -5,18 +5,6 @@ import { UpdateAttendanceDto } from './dto/update-attendance.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { currentAdmin } from 'src/auth/decorators/current-admin.decorator';
 import { Admin } from 'src/admin/entities/admin.entity';
-import { PaginationParamsDto } from 'src/common/dto/pagination.dto';
-
-@Controller('attendance')
-@UseGuards(AuthGuard('jwt'))
-export class AttendanceController {
-  constructor(private readonly attendanceService: AttendanceService) {}
-
-  @Post()
-  create(@Body() createAttendanceDto: CreateAttendanceDto, @currentAdmin() admin: Admin) {
-    return this.attendanceService.create(createAttendanceDto, admin.id);
-  }
-
 import { AttendanceFilterDto } from './dto/attendance-filter.dto';
 
 @Controller('attendance')

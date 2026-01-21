@@ -153,11 +153,11 @@ export class PayoutService {
     }
 
     if (filter.startDate) {
-      query.andWhere('period.startDate >= :startDate', { startDate: filter.startDate });
+      query.andWhere('payout.payoutDate >= :startDate', { startDate: filter.startDate });
     }
 
     if (filter.endDate) {
-      query.andWhere('period.endDate <= :endDate', { endDate: filter.endDate });
+      query.andWhere('payout.payoutDate <= :endDate', { endDate: filter.endDate });
     }
 
     const [data, totalItems] = await query

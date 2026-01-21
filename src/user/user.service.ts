@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserFilterDto } from './dto/user-filter.dto';
 import { PaginationParamsDto } from '../common/dto/pagination.dto';
 import { PaginatedResponse } from '../common/interfaces/paginated-response.interface';
 
@@ -19,22 +20,42 @@ export class UserService {
     return saved;
   }
 
-  async findAll(pagination: PaginationParamsDto): Promise<PaginatedResponse<User>> {
-    const [data, totalItems] = await this.userRepository.findAndCount({
-      skip: pagination.skip,
-      take: pagination.limit,
-    });
+  async findAll(filter: UserFilterDto): Promise<PaginatedResponse<User>> {
+    const query = this.userRepository.createQueryBuilder('user');
 
-    const totalPages = Math.ceil(totalItems / pagination.limit);
+    if (filter.searchTerm || filter.name) {
+      const name = filter.searchTerm || filter.name;
+      query.andWhere('user.fullName ILIKE :name', { name: `%${name}%` });
+    }
+
+    if (filter.phone) {
+      query.andWhere('user.phoneNumber ILIKE :phone', { phone: `%${filter.phone}%` });
+    }
+
+    if (filter.startDate) {
+      query.andWhere('user.createdAt >= :startDate', { startDate: filter.startDate });
+    }
+
+    if (filter.endDate) {
+      query.andWhere('user.createdAt <= :endDate', { endDate: filter.endDate });
+    }
+
+    const [data, totalItems] = await query
+      .skip(filter.skip)
+      .take(filter.limit)
+      .orderBy('user.createdAt', 'DESC')
+      .getManyAndCount();
+
+    const totalPages = Math.ceil(totalItems / filter.limit);
 
     return {
       data,
       meta: {
         totalItems,
         itemCount: data.length,
-        itemsPerPage: pagination.limit,
+        itemsPerPage: filter.limit,
         totalPages,
-        currentPage: pagination.page,
+        currentPage: filter.page,
       },
     };
   }
