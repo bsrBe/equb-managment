@@ -1,7 +1,7 @@
 import { Entity , PrimaryGeneratedColumn , Column , CreateDateColumn , UpdateDateColumn , DeleteDateColumn, ManyToOne, JoinColumn } from "typeorm";
-import { Equb } from "src/equb/entities/equb.entity";
-import { EqubMember } from "src/equb-member/entities/equb-member.entity";
-import { Period } from "src/equb/entities/period.entity";
+import { Equb } from "../../equb/entities/equb.entity";
+import { EqubMember } from "../../equb-member/entities/equb-member.entity";
+import { Period } from "../../equb/entities/period.entity";
 
 @Entity()
 export class Payout {

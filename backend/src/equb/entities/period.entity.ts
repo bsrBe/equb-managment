@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Equb } from './equb.entity';
-import { Attendance } from 'src/attendance/entities/attendance.entity';
-import { Payout } from 'src/payout/entities/payout.entity';
+import { Attendance } from '../../attendance/entities/attendance.entity';
+import { Payout } from '../../payout/entities/payout.entity';
 
 @Entity('periods')
 export class Period {

@@ -1,4 +1,4 @@
-import { EqubMember } from "src/equb-member/entities/equb-member.entity";
+import { EqubMember } from "../../equb-member/entities/equb-member.entity";
 import { Entity , PrimaryGeneratedColumn , Column , CreateDateColumn , UpdateDateColumn , DeleteDateColumn , OneToMany } from "typeorm";
 
 @Entity()

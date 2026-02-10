@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Period } from './period.entity';
 import { Admin } from '../../admin/entities/admin.entity';
-import { EqubMember } from 'src/equb-member/entities/equb-member.entity';
+import { EqubMember } from '../../equb-member/entities/equb-member.entity';
 
 
 @Entity()

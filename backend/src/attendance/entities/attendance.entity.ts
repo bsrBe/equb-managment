@@ -1,7 +1,7 @@
 import { Entity , PrimaryGeneratedColumn , Column , CreateDateColumn , UpdateDateColumn , ManyToOne , JoinColumn , Unique} from "typeorm";
-import { EqubMember } from "src/equb-member/entities/equb-member.entity";
-import { Admin } from "src/admin/entities/admin.entity";
-import { Period } from "src/equb/entities/period.entity";
+import { EqubMember } from "../../equb-member/entities/equb-member.entity";
+import { Admin } from "../../admin/entities/admin.entity";
+import { Period } from "../../equb/entities/period.entity";
 
 @Entity('attendances')
 @Unique(['equbMember', 'period'])

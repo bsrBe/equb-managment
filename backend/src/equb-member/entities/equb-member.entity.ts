@@ -1,6 +1,6 @@
-import { Attendance } from "src/attendance/entities/attendance.entity";
-import { Equb } from "src/equb/entities/equb.entity";
-import { User } from "src/user/entities/user.entity";
+import { Attendance } from "../../attendance/entities/attendance.entity";
+import { Equb } from "../../equb/entities/equb.entity";
+import { User } from "../../user/entities/user.entity";
 import { Entity , PrimaryGeneratedColumn , Column , CreateDateColumn , UpdateDateColumn , DeleteDateColumn , ManyToOne , JoinColumn , OneToMany , Unique } from "typeorm";
 
 @Entity()
