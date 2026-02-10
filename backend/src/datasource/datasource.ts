@@ -9,7 +9,18 @@ import { Payout } from "src/payout/entities/payout.entity";
 import { Period } from "src/equb/entities/period.entity";
 dotenv.config();
 
-export const dataSourceOptions: DataSourceOptions = {
+function buildDataSourceOptions(): DataSourceOptions {
+  if (process.env.DATABASE_URL) {
+    return {
+      type: "postgres",
+      url: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+      entities: [Admin, User, Equb, Attendance, EqubMember, Payout, Period],
+      synchronize: true,
+    } as DataSourceOptions;
+  }
+
+  return {
     type: "postgres",
     host: process.env.POSTGRES_HOST,
     port: Number(process.env.POSTGRES_PORT),
@@ -18,7 +29,10 @@ export const dataSourceOptions: DataSourceOptions = {
     database: process.env.POSTGRES_DB,
     entities: [Admin, User, Equb, Attendance, EqubMember, Payout, Period],
     synchronize: true,
-};
+  } as DataSourceOptions;
+}
+
+export const dataSourceOptions = buildDataSourceOptions();
 
 const dataSource = new DataSource(dataSourceOptions);
 
