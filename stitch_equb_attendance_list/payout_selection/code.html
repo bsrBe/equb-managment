@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Payout Selection - EqubDigital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007f80",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0f2323",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-[#101818] dark:text-white font-display min-h-screen flex flex-col relative overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 ios-blur border-b border-gray-100 dark:border-gray-800">
+<div class="flex items-center p-4 justify-between max-w-md mx-auto">
+<div class="text-[#101818] dark:text-white flex size-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Payout Selection</h2>
+<div class="size-10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">info</span>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-md mx-auto w-full pb-32">
+<!-- Current Cycle Summary -->
+<div class="px-4 py-6">
+<div class="bg-white dark:bg-[#1a2e2e] p-5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
+<p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1">Total Pool Balance</p>
+<h1 class="text-3xl font-bold text-primary">$4,800.00</h1>
+<div class="mt-4 flex items-center gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                        Cycle 4 of 12
+                    </span>
+<span class="text-xs text-gray-400">Next payout: Today</span>
+</div>
+</div>
+</div>
+<!-- Section Header -->
+<div class="px-4 pb-2 pt-4">
+<h3 class="text-lg font-bold leading-tight tracking-[-0.015em]">Previous Winners</h3>
+</div>
+<!-- Previous Winners List -->
+<div class="divide-y divide-gray-50 dark:divide-gray-800">
+<!-- ListItem 1 -->
+<div class="flex items-center gap-4 bg-white dark:bg-transparent px-4 min-h-[72px] py-3 justify-between hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border border-gray-100 dark:border-gray-700" data-alt="Profile photo of a smiling professional man" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAH0e-tSbdRWIr7UBw94JaNVCj9BqhKY4D5LSg50fdQiD6V3nnVXRvAWiE6zBdE22s4tAISlp93Di2SAQ6xik8VKDAoXAKyC29pd1eDZTCNDgh7ra_N_-9surVoNNNUY_v3vvDCKL1gU865W2b7kD_VuBIuaTOMhHHdkHjCcBpJNVHmCOztLhxYp-VdLYw90D3NHAZh3hy-P80qofmH_iUGwzVNhbgJtcFNCqGGDw_ewXreITBeMqmeF7A6DYxo2GpK6SC_Xlk-HGk");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-[#101818] dark:text-white text-base font-semibold leading-none mb-1">Abebe Bikila</p>
+<p class="text-[#5e8d8d] text-sm font-normal leading-normal">Oct 12, 2023</p>
+</div>
+</div>
+<div class="shrink-0 text-right">
+<p class="text-[#101818] dark:text-white text-base font-bold leading-normal">$1,200.00</p>
+<p class="text-[10px] text-primary uppercase font-bold tracking-wider">Paid</p>
+</div>
+</div>
+<!-- ListItem 2 -->
+<div class="flex items-center gap-4 bg-white dark:bg-transparent px-4 min-h-[72px] py-3 justify-between hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border border-gray-100 dark:border-gray-700" data-alt="Profile photo of a professional woman wearing glasses" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCCbiOhT4Ti3bb9IiQsBuLO5A5pze2ZyJ2dWPZcLFISUSgbZNd59O0kjwDzJTQYqYNvROKtzGsBCcOqFyrwYCGd9Vbm8dKYQXa8jo0_DldQ7vHdHxaTM8_Y1JBsvcyrd2G7uNGvUReH6Aje3Wu00DtV5rtI0m0NxEET-neP9s6x5UaiHXXa9XcCn1SiEZKIbCe8NslDOAZ1moK5pB48GfM5sB0ijK3k0Ds1gmwxO1YuJxAcYGJA4IZVvM-aVkApsuEQTuLi6vJSUvw");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-[#101818] dark:text-white text-base font-semibold leading-none mb-1">Sara Tadesse</p>
+<p class="text-[#5e8d8d] text-sm font-normal leading-normal">Sep 12, 2023</p>
+</div>
+</div>
+<div class="shrink-0 text-right">
+<p class="text-[#101818] dark:text-white text-base font-bold leading-normal">$1,200.00</p>
+<p class="text-[10px] text-primary uppercase font-bold tracking-wider">Paid</p>
+</div>
+</div>
+<!-- ListItem 3 -->
+<div class="flex items-center gap-4 bg-white dark:bg-transparent px-4 min-h-[72px] py-3 justify-between hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border border-gray-100 dark:border-gray-700" data-alt="Portrait of a young man in a white shirt" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAE8DPx-tiPAlpUdm5-Q-c7pwmPmBy23qjS8dhCroiWg4EoGe4bW_osqRedStI3U249-RarnhRwT7KMjkfrC8-KK4l5oO_nbedgYC4GMvfzOywaybVMGtE2vuaP0ZeSda1mjMaWoAnag7NS9pJjJt6cBwC8_8QtcRM8D57qzhWZ_p7s1RZABXI06GsW8mPSYQ4XEOjNITf7mjOVLfhJC-YJBJaUwUXB5BZjoAHZmkm7rnoYamICYW0Y6eCyTMwfyj0rqYvJ2SWH450");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-[#101818] dark:text-white text-base font-semibold leading-none mb-1">Dawit Yohannes</p>
+<p class="text-[#5e8d8d] text-sm font-normal leading-normal">Aug 12, 2023</p>
+</div>
+</div>
+<div class="shrink-0 text-right">
+<p class="text-[#101818] dark:text-white text-base font-bold leading-normal">$1,200.00</p>
+<p class="text-[10px] text-primary uppercase font-bold tracking-wider">Paid</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal / Bottom Sheet - Mockup showing the Searchable Eligible Members -->
+<div class="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
+<!-- Overlay backdrop -->
+<div class="absolute inset-0 bg-black/40 pointer-events-auto"></div>
+<!-- Bottom Sheet Content -->
+<div class="relative w-full max-w-md bg-white dark:bg-background-dark rounded-t-3xl shadow-2xl pointer-events-auto max-h-[85vh] flex flex-col transform translate-y-0 transition-transform duration-300">
+<!-- Drag Handle -->
+<div class="w-full flex justify-center py-3">
+<div class="w-12 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full"></div>
+</div>
+<!-- Modal Header -->
+<div class="px-6 pb-4">
+<h3 class="text-xl font-bold">Assign Period Winner</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Select an eligible member for this round.</p>
+</div>
+<!-- Search Bar -->
+<div class="px-6 pb-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+<input class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-xl py-3 pl-10 pr-4 focus:ring-2 focus:ring-primary text-sm" placeholder="Search eligible members..." type="text"/>
+</div>
+</div>
+<!-- Eligible Members List -->
+<div class="flex-1 overflow-y-auto px-6 pb-20">
+<div class="space-y-4 py-2">
+<!-- Member Row 1 -->
+<div class="flex items-center justify-between p-3 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">ML</div>
+<div>
+<p class="font-semibold text-sm">Marta Lemma</p>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-[10px] text-gray-500">Fully Paid ($300.00)</span>
+</div>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-primary/90 transition-colors">Select</button>
+</div>
+<!-- Member Row 2 -->
+<div class="flex items-center justify-between p-3 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 font-bold">KB</div>
+<div>
+<p class="font-semibold text-sm">Kebede Belay</p>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-[10px] text-gray-500">Fully Paid ($300.00)</span>
+</div>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-primary/90 transition-colors">Select</button>
+</div>
+<!-- Member Row 3 -->
+<div class="flex items-center justify-between p-3 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 font-bold">HT</div>
+<div>
+<p class="font-semibold text-sm">Hana Tekle</p>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span class="text-[10px] text-gray-500">Partial ($150.00 / $300.00)</span>
+</div>
+</div>
+</div>
+<button class="bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-4 py-1.5 rounded-lg text-xs font-bold cursor-not-allowed">Ineligible</button>
+</div>
+<!-- Member Row 4 -->
+<div class="flex items-center justify-between p-3 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 font-bold">YI</div>
+<div>
+<p class="font-semibold text-sm">Yonas Isaac</p>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-[10px] text-gray-500">Fully Paid ($300.00)</span>
+</div>
+</div>
+</div>
+<button class="bg-primary text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-primary/90 transition-colors">Select</button>
+</div>
+</div>
+</div>
+<!-- Confirm Button -->
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white dark:from-background-dark via-white dark:via-background-dark/95 to-transparent">
+<button class="w-full bg-gray-100 dark:bg-gray-800 text-gray-400 py-4 rounded-xl font-bold flex items-center justify-center gap-2 cursor-not-allowed">
+                    Confirm Selection
+                </button>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (Lowered but accessible) -->
+<!-- (Hidden by modal in this view, but included as per requirements) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-xs px-4 z-40 hidden">
+<button class="w-full bg-primary text-white py-4 rounded-2xl shadow-xl shadow-primary/20 flex items-center justify-center gap-3 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-bold tracking-tight">Assign This Period's Winner</span>
+</button>
+</div>
+</body></html>

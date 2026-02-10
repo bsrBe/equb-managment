@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Equb Analytics &amp; Arrears</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0bdada",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102222",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<!-- Sticky Header -->
+<header class="sticky top-0 z-50 bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center px-4 py-3 justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-900 dark:text-white cursor-pointer">arrow_back_ios</span>
+<div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Weekly Gold Circle</h2>
+<p class="text-xs text-slate-500 font-medium">Pot: ETB 150,000</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+<span class="material-symbols-outlined text-slate-900 dark:text-white">ios_share</span>
+</button>
+</div>
+</div>
+<!-- Segmented Controls -->
+<div class="flex px-4 pb-3">
+<div class="flex h-10 flex-1 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-primary text-sm font-semibold transition-all">
+<span>Activity</span>
+<input class="hidden" name="tabs" type="radio" value="Activity"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-primary text-sm font-semibold transition-all">
+<span>Members</span>
+<input class="hidden" name="tabs" type="radio" value="Members"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-primary text-sm font-semibold transition-all">
+<span>Insights</span>
+<input checked="" class="hidden" name="tabs" type="radio" value="Insights"/>
+</label>
+</div>
+</div>
+</header>
+<main class="flex flex-col pb-10">
+<!-- Collection Trend Section -->
+<div class="p-4 bg-white dark:bg-background-dark border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold tracking-tight">Collection Trend</h3>
+<span class="text-xs font-semibold text-primary uppercase tracking-wider">Live</span>
+</div>
+<div class="flex flex-col gap-2 py-2">
+<p class="text-slate-500 text-sm font-medium">Current Collection Rate</p>
+<div class="flex items-baseline gap-2">
+<p class="text-slate-900 dark:text-white text-4xl font-bold tracking-tight">92.4%</p>
+<p class="text-emerald-500 text-sm font-semibold flex items-center">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                        +2.5%
+                    </p>
+</div>
+<!-- Sparkline Chart -->
+<div class="w-full h-40 mt-4 relative">
+<svg fill="none" height="100%" preserveaspectratio="none" viewbox="0 0 472 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 109C18 109 18 21 36 21C54 21 54 41 72 41C90 41 90 93 108 93C127 93 127 33 145 33C163 33 163 101 181 101C199 101 199 61 217 61C236 61 236 45 254 45C272 45 272 121 290 121C308 121 308 149 326 149C344 149 344 1 363 1C381 1 381 81 399 81C417 81 417 129 435 129C453 129 453 25 472 25V149H0V109Z" fill="url(#gradient-primary)" fill-opacity="0.1"></path>
+<path d="M0 109C18 109 18 21 36 21C54 21 54 41 72 41C90 41 90 93 108 93C127 93 127 33 145 33C163 33 163 101 181 101C199 101 199 61 217 61C236 61 236 45 254 45C272 45 272 121 290 121C308 121 308 149 326 149C344 149 344 1 363 1C381 1 381 81 399 81C417 81 417 129 435 129C453 129 453 25 472 25" stroke="#0bdada" stroke-linecap="round" stroke-width="3"></path>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="gradient-primary" x1="236" x2="236" y1="1" y2="149">
+<stop stop-color="#0bdada"></stop>
+<stop offset="1" stop-color="#0bdada" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+<div class="flex justify-between px-1 mt-2">
+<p class="text-slate-400 text-[11px] font-bold">ROUND 16</p>
+<p class="text-slate-400 text-[11px] font-bold">ROUND 17</p>
+<p class="text-slate-400 text-[11px] font-bold">ROUND 18</p>
+<p class="text-slate-400 text-[11px] font-bold">ROUND 19</p>
+</div>
+</div>
+</div>
+</div>
+<!-- KPI Stats -->
+<div class="flex gap-4 p-4 bg-background-light dark:bg-background-dark/50">
+<div class="flex-1 bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 shadow-sm">
+<p class="text-slate-500 text-xs font-medium mb-1">Total Arrears</p>
+<p class="text-slate-900 dark:text-white text-lg font-bold leading-tight">ETB 12,400</p>
+<div class="flex items-center mt-2 text-rose-500 gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="text-[11px] font-bold">+5% vs last round</span>
+</div>
+</div>
+<div class="flex-1 bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 shadow-sm">
+<p class="text-slate-500 text-xs font-medium mb-1">On-time Rate</p>
+<p class="text-slate-900 dark:text-white text-lg font-bold leading-tight">88.5%</p>
+<div class="flex items-center mt-2 text-rose-500 gap-1">
+<span class="material-symbols-outlined text-sm">trending_down</span>
+<span class="text-[11px] font-bold">-2% vs last round</span>
+</div>
+</div>
+</div>
+<!-- Arrears List -->
+<div class="px-4 pt-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold tracking-tight">Arrears List (5)</h3>
+<button class="text-primary text-sm font-semibold flex items-center gap-1">
+                    Notify All
+                    <span class="material-symbols-outlined text-sm">notifications</span>
+</button>
+</div>
+<div class="space-y-3">
+<!-- Member 1 -->
+<div class="flex items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="h-11 w-11 rounded-full overflow-hidden bg-slate-100 flex items-center justify-center">
+<img alt="User" class="h-full w-full object-cover" data-alt="Portrait of a smiling Ethiopian man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIQCtNlHdc61EHrziRCEUihsf7hQZQ9wUZ5OzmBluxXqCoz-XrRRki8WFevUAGSfTDZRV_Jj9BCg8dLMtr8v_I7Jq_H3ey0E1ifxb8uwVnIfyIOSqVWQR8jIwlcmmDwSNPEb6Dnb8p4IXgNKw9G9tUk6-DVPzpEEhc8poK0YNKo-Gz7rHbpvVUq9icVjVt3dpo8TMfRyCCJUUFiFJ1qFyNWyrxdcBsemz86pdRgePraOB6f9iYgh2G-VUWVpbq1nsJxW5RkQbq-JU"/>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white font-bold text-sm">Abebe Kebede</p>
+<p class="text-rose-500 text-xs font-medium">2 rounds overdue</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-slate-900 dark:text-white font-bold text-sm">ETB 4,500</p>
+<button class="mt-1 text-primary text-[11px] font-bold border border-primary/30 rounded px-2 py-0.5 hover:bg-primary/10 transition-colors uppercase tracking-tight">Nudge</button>
+</div>
+</div>
+<!-- Member 2 -->
+<div class="flex items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="h-11 w-11 rounded-full overflow-hidden bg-slate-100 flex items-center justify-center">
+<img alt="User" class="h-full w-full object-cover" data-alt="Portrait of a woman with braided hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpXc7xyJ4iKemt78y47iot9nFpAm3k02wfmyoLE0sNaMmt6Y3ZGjbwHpZadCF5jqiuwiqVN8FRrTsNeE9wBb9GZKm-wkPF8nIjx7Pmhzah96HBJRF4u2lhBfQlvPN57Vp-Twy_tNs3jHy_myvNA9XJjILe7Xzfa2m_-tl1PGIZIhckSFSXxA4jWDklb9b4b45uyzUYzh523qnW1fs6YF5uhDSUcMpCR3mxBwfd76KxRiJG18FAyHrzZqlVTZAeHKBf0w2gR77QQKA"/>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white font-bold text-sm">Salem Tekle</p>
+<p class="text-rose-500 text-xs font-medium">1 round overdue</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-slate-900 dark:text-white font-bold text-sm">ETB 2,250</p>
+<button class="mt-1 text-primary text-[11px] font-bold border border-primary/30 rounded px-2 py-0.5 hover:bg-primary/10 transition-colors uppercase tracking-tight">Nudge</button>
+</div>
+</div>
+<!-- Member 3 -->
+<div class="flex items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm opacity-90">
+<div class="flex items-center gap-3">
+<div class="h-11 w-11 rounded-full overflow-hidden bg-slate-100 flex items-center justify-center">
+<img alt="User" class="h-full w-full object-cover" data-alt="Young man looking directly at camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp_SZEQRG0WSzs9tEopOd50-u7GBu45tuMScdJT2_h3Oo62d5l6EEmXwslr0IN3wnug5Wb8R3_CEZ8Hi8qRzJsmJHAvGM4R8VbO3TCmoLteb9r44pI22bFHoFr2IEkirlX7RyrDJm-GaE6eaqGxhWX0UmVIG_vjf3KV4riIlj8hWyRsLb9kiAA1t4KvERZki8t_sWqP7nA7e50cEmrUVWHmomgLgZOKs8pTWXLsTV4veLiCtMS9mbW22qci5NhbfUXpAk9SMi0BDI"/>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white font-bold text-sm">Yonas Biru</p>
+<p class="text-amber-500 text-xs font-medium">Partially paid</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-slate-900 dark:text-white font-bold text-sm">ETB 1,125</p>
+<button class="mt-1 text-slate-400 text-[11px] font-bold border border-slate-200 rounded px-2 py-0.5 uppercase tracking-tight">Details</button>
+</div>
+</div>
+<!-- View More Button -->
+<button class="w-full py-3 text-slate-500 dark:text-slate-400 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors">
+                    View all 5 members in arrears
+                </button>
+</div>
+</div>
+<!-- Analytical Footer Insight -->
+<div class="mx-4 mt-6 p-4 bg-primary/10 rounded-xl border border-primary/20 flex gap-3">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<div>
+<p class="text-slate-900 dark:text-white text-sm font-bold">Insight: High collection risk</p>
+<p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed mt-1">
+                    Arrears have increased by 5% since Round 17. Most delays occur during the final week of each round. Consider adjusting the grace period.
+                </p>
+</div>
+</div>
+</main>
+<!-- Navigation Tab Bar (Simulated) -->
+<div class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-background-dark/80 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 px-6 py-2 flex justify-between items-center pb-8">
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-medium">Groups</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">wallet</span>
+<span class="text-[10px] font-medium">Wallet</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</div>
+</div>
+</body></html>

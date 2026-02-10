@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Member Payout Status View</title>
+<!-- Material Symbols Link -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0bdada",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102222",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased">
+<div class="relative flex h-auto min-h-screen w-full max-w-[430px] mx-auto flex-col bg-white dark:bg-background-dark overflow-x-hidden shadow-2xl">
+<!-- TopAppBar -->
+<div class="flex items-center bg-white dark:bg-background-dark p-4 pb-2 justify-between border-b border-[#dbe6e6] dark:border-[#2a3f3f]">
+<div class="text-[#111818] dark:text-white flex size-12 shrink-0 items-center">
+<span class="material-symbols-outlined cursor-pointer">arrow_back_ios</span>
+</div>
+<div class="flex flex-col items-center flex-1">
+<h2 class="text-[#111818] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Member Status</h2>
+<p class="text-[#608a8a] text-xs font-medium uppercase tracking-wider">Weekly Friday Equb</p>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-[#111818] dark:text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</div>
+<!-- Summary Header / Stats -->
+<div class="flex flex-wrap gap-3 p-4 bg-white dark:bg-background-dark">
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-xl p-4 border border-[#dbe6e6] dark:border-[#2a3f3f] bg-background-light/50 dark:bg-background-dark/50">
+<p class="text-[#608a8a] text-xs font-semibold uppercase tracking-tight">Already Won</p>
+<div class="flex items-baseline gap-1">
+<p class="text-[#111818] dark:text-white tracking-light text-2xl font-bold leading-tight">8</p>
+<p class="text-[#608a8a] text-sm">members</p>
+</div>
+</div>
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-xl p-4 border border-primary/30 bg-primary/5">
+<p class="text-primary text-xs font-semibold uppercase tracking-tight">Remaining</p>
+<div class="flex items-baseline gap-1">
+<p class="text-[#111818] dark:text-white tracking-light text-2xl font-bold leading-tight">12</p>
+<p class="text-[#608a8a] text-sm">members</p>
+</div>
+</div>
+</div>
+<div class="h-2 bg-background-light dark:bg-background-dark/40"></div>
+<!-- Section Header -->
+<div class="bg-white dark:bg-background-dark">
+<div class="flex justify-between items-center px-4 pt-6 pb-2">
+<h3 class="text-[#111818] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Member List</h3>
+<span class="text-xs font-semibold text-primary px-2 py-1 bg-primary/10 rounded">ROUND 12 OF 20</span>
+</div>
+</div>
+<!-- List Items - Filtered View -->
+<div class="flex flex-col bg-white dark:bg-background-dark">
+<!-- Member: Won (Dimmed state) -->
+<div class="flex gap-4 bg-white dark:bg-background-dark px-4 py-4 justify-between border-b border-[#f0f5f5] dark:border-[#2a3f3f] opacity-60">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-[60px] w-[60px] border-2 border-primary/20" data-alt="Portrait of Abebe Bikila" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC_XIKXRwY6tQIehhTIAPMpzesNrVNFWX3KqwAyqKNHdsGCAfREDSE66BOXsm64J5kRKGJWVH5Dnl3p918djv3fs2di4Bn6SKWgi63wro3rUHr8Md_jQYkG8EF8tFkl86UD-IGLnuk5eodwycDGDccSeVqxbzRHT_jmIDSVaxsNExZPdo5JpOn4thFgPDRhsiBl21uHTCDb3flfYLqSUWEisyus6XjZxBNa-xvPcy2GnrQuUU1RXaQkD1pvJYwwJz063pFjXo_qKjI");'></div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">Abebe Bikila</p>
+<div class="flex items-center gap-1">
+<span class="text-sm">🏆</span>
+<p class="text-[#608a8a] text-sm font-medium leading-normal">Already Won</p>
+</div>
+<p class="text-[#608a8a] text-xs font-normal leading-normal">Won in Round 4 • $1,200</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="flex min-w-[90px] cursor-not-allowed items-center justify-center rounded-lg h-9 px-4 bg-[#f0f5f5] dark:bg-[#1a2e2e] text-[#608a8a] text-xs font-bold leading-normal uppercase">
+<span class="material-symbols-outlined text-sm mr-1">check_circle</span>
+<span>Paid</span>
+</button>
+</div>
+</div>
+<!-- Member: Won (Another variant) -->
+<div class="flex gap-4 bg-white dark:bg-background-dark px-4 py-4 justify-between border-b border-[#f0f5f5] dark:border-[#2a3f3f] opacity-60">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-[60px] w-[60px] border-2 border-primary/20" data-alt="Portrait of Sarah Jenkins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAX-6F-kpjE-4rTKnHm_YjKKf1CLtFz4wkNTaW8eVmsBzwG-kdGF3YfUxQLXx1r9lNGPYzIXwj-hPPbA2xhqbNzgUpPE22H5YmX7txD0SkJcnDTjdS5V6rcaPQQnAmXLTP5OLlgSyiVI5wuEVjT4-8XtX2AcG2cKLhMaY6t_1Ul0k8CGMETcVYTj-rmJ9OQsBT7HhboHv1aQC-b1mgunLy321fa2eow0hDAzEy1ORDYdevKNLGeMAOHQxwlRBXtdJKu4IkgKxkjBlo");'></div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">Sara Jenkins</p>
+<div class="flex items-center gap-1">
+<span class="text-sm">🏆</span>
+<p class="text-[#608a8a] text-sm font-medium leading-normal">Already Won</p>
+</div>
+<p class="text-[#608a8a] text-xs font-normal leading-normal">Won in Round 8 • $1,200</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="flex min-w-[90px] cursor-not-allowed items-center justify-center rounded-lg h-9 px-4 bg-[#f0f5f5] dark:bg-[#1a2e2e] text-[#608a8a] text-xs font-bold leading-normal uppercase">
+<span class="material-symbols-outlined text-sm mr-1">check_circle</span>
+<span>Paid</span>
+</button>
+</div>
+</div>
+<!-- Member: Pending (Active state for comparison) -->
+<div class="flex gap-4 bg-white dark:bg-background-dark px-4 py-4 justify-between border-b border-[#f0f5f5] dark:border-[#2a3f3f]">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-[60px] w-[60px] border-2 border-primary" data-alt="Portrait of Marcus Thorne" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAIt6VUDihc3zhhTfFoY4BxpM2HvzrsnTPDw8-lFqHwyGb6tOYAS0waQNC2j7vNCqf6d_AQGkTNVRG8KYc4el5NS7DPycsamAu9aps5kbACJE_H5chRarUN9gdqNIeeve5CoILZeA1zO2PuaoBo8zfxbJ21QLNxZKZ9sPjXrXs8fzWyRxFH4En_J_HuXX37N96RE40Y59ySXM0XWhfq0a9YcAdAW22ptb4KjFQ1ZIGtNxyS8uw2RDBgKgwKeekoYpalhJdkhWa9sLE");'></div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">Marcus Thorne</p>
+<p class="text-primary text-sm font-semibold leading-normal">Not Won Yet</p>
+<p class="text-[#608a8a] text-xs font-normal leading-normal">Pending Payout • Est. Round 15</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="flex min-w-[90px] cursor-pointer items-center justify-center rounded-lg h-9 px-4 bg-primary text-white text-xs font-bold leading-normal uppercase shadow-sm">
+<span>Mark Paid</span>
+</button>
+</div>
+</div>
+<!-- Member: Pending -->
+<div class="flex gap-4 bg-white dark:bg-background-dark px-4 py-4 justify-between border-b border-[#f0f5f5] dark:border-[#2a3f3f]">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-[60px] w-[60px] border-2 border-primary/10" data-alt="Portrait of Elena Rodriguez" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDzkqga08gole04Cc6OjDv8TFp2P5357rjRm7L6Lf8WhDG_T5YwoSOxfoRUIajmVIoNi8g8Vn7CTP7JQ4hx_wcpnD6e19z69Yyi4Hr6oywUSnBcl87q80i7Jvg94eEmYtPTlxmQtKTj4452_Y6DcLab2xIP5efPG9Jel9c73eCZVCQy25I4CWWNaol6Ygll4GNR4YkXcN13M1rMK6wTX-iussY-M_Ivuy2d_8QlRdQO2zB8urdVKPVfiZcq8__63rjb6QL_29eT1Fg");'></div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">Elena Rodriguez</p>
+<p class="text-primary text-sm font-semibold leading-normal">Not Won Yet</p>
+<p class="text-[#608a8a] text-xs font-normal leading-normal">Pending Payout • Est. Round 18</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center">
+<button class="flex min-w-[90px] cursor-pointer items-center justify-center rounded-lg h-9 px-4 bg-primary text-white text-xs font-bold leading-normal uppercase shadow-sm">
+<span>Mark Paid</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Action -->
+<div class="mt-auto p-4 bg-white dark:bg-background-dark border-t border-[#dbe6e6] dark:border-[#2a3f3f]">
+<button class="w-full flex items-center justify-center gap-2 rounded-xl h-14 bg-primary text-[#111818] text-base font-bold leading-normal">
+<span class="material-symbols-outlined">payments</span>
+                Initiate Round 12 Draw
+            </button>
+</div>
+<!-- Navigation Bar (iOS Style) -->
+<div class="flex justify-around items-center bg-white dark:bg-background-dark py-3 border-t border-[#dbe6e6] dark:border-[#2a3f3f]">
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold">Members</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-[#608a8a]">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="text-[10px] font-bold">Payouts</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-[#608a8a]">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] font-bold">History</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-[#608a8a]">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold">Settings</span>
+</div>
+</div>
+</div>
+</body></html>

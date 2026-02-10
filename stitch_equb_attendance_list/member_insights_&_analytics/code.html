@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Member Insights &amp; Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007f80",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0f2323",
+                        "success": "#22c55e",
+                        "error": "#ef4444",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom Donut Chart Clip Path */
+        .donut-mask {
+            clip-path: circle(50% at 50% 50%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#101818] dark:text-white transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col max-w-[480px] mx-auto bg-white dark:bg-background-dark shadow-xl overflow-x-hidden pb-32">
+<!-- Top App Bar -->
+<div class="sticky top-0 z-50 flex items-center bg-white/80 dark:bg-background-dark/80 backdrop-blur-md p-4 pb-2 justify-between border-b border-[#dae7e7] dark:border-gray-800">
+<div class="text-[#101818] dark:text-white flex size-12 shrink-0 items-center cursor-pointer">
+<span class="material-symbols-outlined">arrow_back_ios</span>
+</div>
+<h2 class="text-[#101818] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Member Analytics</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex cursor-pointer items-center justify-center rounded-lg h-12 bg-transparent text-[#101818] dark:text-white p-0">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Profile Header -->
+<div class="flex p-4 mt-2">
+<div class="flex w-full flex-col gap-4">
+<div class="flex gap-4 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-20 w-20 border-2 border-primary/20" data-alt="Professional portrait of a male member" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDgLSlBysbQut05kVsWKfoDkOgDXZFXLYdbBBj_mbnYYk1DFDUnlmFcy-xHnbwyEgKSt-wo50aisDj0hO0EKirJL7BQJBfSelyZ_iUckL2-1t9G9sNfy-8SX8DqanB8rCfIDPlhbm65zybrHbTt7IltKbzGNxwL2WXRR4Sp7dmaYiUcY-vGoHNp8S06_KK-tTgIfKgxPp8CXjFUXNYSn7Cfj_CbvzwMQn66Ugq72_VMNzlojv-awY3bHgk2bJYdGawuus9UJlntifM");'>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-[#101818] dark:text-white text-xl font-bold leading-tight">Abebe Kebede</p>
+<p class="text-[#5e8d8d] dark:text-primary/70 text-sm font-medium">ID: EQ-48291</p>
+<p class="text-[#5e8d8d] dark:text-primary/70 text-sm">Member since Jan 2023</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Consistency Score Section -->
+<div class="px-4 py-2">
+<div class="bg-primary/5 dark:bg-primary/10 rounded-xl p-6 flex flex-col items-center border border-primary/10">
+<h4 class="text-primary dark:text-primary font-bold text-sm uppercase tracking-wider mb-4">Consistency Score</h4>
+<!-- Simple Donut Chart Representation -->
+<div class="relative flex items-center justify-center w-40 h-40">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-gray-200 dark:text-gray-700" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="35.2" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="text-4xl font-black text-[#101818] dark:text-white">92%</span>
+<span class="text-xs font-bold text-[#5e8d8d] dark:text-primary/60">EXCELLENT</span>
+</div>
+</div>
+<p class="mt-4 text-center text-sm text-[#5e8d8d] dark:text-primary/70 px-4">
+                    Based on 12 consecutive rounds of contributions. Reliability is above average for this Equb group.
+                </p>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="flex flex-wrap gap-3 p-4">
+<div class="flex min-w-[130px] flex-1 flex-col gap-1 rounded-xl p-4 border border-[#dae7e7] dark:border-gray-800 bg-white dark:bg-gray-900/50">
+<p class="text-[#5e8d8d] text-xs font-bold uppercase">Total Saved</p>
+<p class="text-[#101818] dark:text-white text-xl font-bold">ETB 45k</p>
+</div>
+<div class="flex min-w-[130px] flex-1 flex-col gap-1 rounded-xl p-4 border border-[#dae7e7] dark:border-gray-800 bg-white dark:bg-gray-900/50">
+<p class="text-[#5e8d8d] text-xs font-bold uppercase">Missed</p>
+<p class="text-error text-xl font-bold">1 Round</p>
+</div>
+<div class="flex min-w-[130px] flex-1 flex-col gap-1 rounded-xl p-4 border border-[#dae7e7] dark:border-gray-800 bg-white dark:bg-gray-900/50">
+<p class="text-[#5e8d8d] text-xs font-bold uppercase">Rank</p>
+<p class="text-[#101818] dark:text-white text-xl font-bold">4th / 20</p>
+</div>
+</div>
+<!-- Payment History Timeline -->
+<div class="px-4 py-4 mb-4">
+<h3 class="text-[#101818] dark:text-white text-lg font-bold mb-6 px-1">Payment History</h3>
+<div class="relative ml-4 border-l-2 border-[#dae7e7] dark:border-gray-800 flex flex-col gap-8 pb-4">
+<!-- Timeline Item: Paid -->
+<div class="relative pl-8">
+<div class="absolute -left-[11px] top-0 size-5 rounded-full bg-success border-4 border-white dark:border-background-dark"></div>
+<div class="flex flex-col">
+<div class="flex justify-between items-center mb-1">
+<span class="font-bold text-[#101818] dark:text-white">Round 12 - Dec 2023</span>
+<span class="text-success text-xs font-bold px-2 py-1 bg-success/10 rounded-full">PAID</span>
+</div>
+<p class="text-sm text-[#5e8d8d] dark:text-gray-400">ETB 3,750 deposited via CBE Birr</p>
+</div>
+</div>
+<!-- Timeline Item: Paid -->
+<div class="relative pl-8">
+<div class="absolute -left-[11px] top-0 size-5 rounded-full bg-success border-4 border-white dark:border-background-dark"></div>
+<div class="flex flex-col">
+<div class="flex justify-between items-center mb-1">
+<span class="font-bold text-[#101818] dark:text-white">Round 11 - Nov 2023</span>
+<span class="text-success text-xs font-bold px-2 py-1 bg-success/10 rounded-full">PAID</span>
+</div>
+<p class="text-sm text-[#5e8d8d] dark:text-gray-400">ETB 3,750 deposited via Wallet</p>
+</div>
+</div>
+<!-- Timeline Item: Missed -->
+<div class="relative pl-8">
+<div class="absolute -left-[11px] top-0 size-5 rounded-full bg-error border-4 border-white dark:border-background-dark"></div>
+<div class="flex flex-col">
+<div class="flex justify-between items-center mb-1">
+<span class="font-bold text-[#101818] dark:text-white">Round 10 - Oct 2023</span>
+<span class="text-error text-xs font-bold px-2 py-1 bg-error/10 rounded-full">MISSED</span>
+</div>
+<p class="text-sm text-[#5e8d8d] dark:text-gray-400">Follow-up sent on Oct 15th</p>
+</div>
+</div>
+<!-- Timeline Item: Paid -->
+<div class="relative pl-8">
+<div class="absolute -left-[11px] top-0 size-5 rounded-full bg-success border-4 border-white dark:border-background-dark"></div>
+<div class="flex flex-col">
+<div class="flex justify-between items-center mb-1">
+<span class="font-bold text-[#101818] dark:text-white">Round 9 - Sep 2023</span>
+<span class="text-success text-xs font-bold px-2 py-1 bg-success/10 rounded-full">PAID</span>
+</div>
+<p class="text-sm text-[#5e8d8d] dark:text-gray-400">ETB 3,750 deposited via CBE Birr</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Actions -->
+<div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white/95 dark:bg-background-dark/95 backdrop-blur-lg border-t border-[#dae7e7] dark:border-gray-800 p-4 pb-8 flex flex-col gap-4">
+<div class="flex gap-4 items-center">
+<!-- Communication Icons -->
+<button class="flex items-center justify-center size-12 rounded-xl bg-primary text-white shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">call</span>
+</button>
+<button class="flex items-center justify-center size-12 rounded-xl bg-[#25D366] text-white shadow-lg shadow-[#25D366]/20 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">chat</span>
+</button>
+<!-- Primary Action Button -->
+<button class="flex-1 flex items-center justify-center h-12 bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary font-bold rounded-xl border border-primary/20 hover:bg-primary/20 transition-colors">
+                    Move to Different Equb
+                </button>
+</div>
+</div>
+</div>
+</body></html>

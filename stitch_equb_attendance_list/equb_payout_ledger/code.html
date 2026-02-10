@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Equb Payout Ledger</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#06e0e0",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0f2323",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111818] dark:text-white min-h-screen">
+<!-- Sticky Top Bar -->
+<div class="sticky-header bg-white dark:bg-background-dark border-b border-[#dbe6e6] dark:border-[#2a3f3f]">
+<div class="flex items-center p-4 pb-2 justify-between">
+<div class="text-[#111818] dark:text-white flex size-10 shrink-0 items-center cursor-pointer">
+<span class="material-symbols-outlined">arrow_back_ios</span>
+</div>
+<div class="flex-1 text-center">
+<h2 class="text-[#111818] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Wednesday Savings Group</h2>
+<p class="text-[#5f8c8c] text-xs font-medium">Pool: $60,000 • 12 Members</p>
+</div>
+<div class="flex size-10 items-center justify-end">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-transparent text-[#111818] dark:text-white">
+<span class="material-symbols-outlined">info</span>
+</button>
+</div>
+</div>
+<!-- Segmented Control -->
+<div class="flex px-4 py-3">
+<div class="flex h-10 flex-1 items-center justify-center rounded-lg bg-[#f0f5f5] dark:bg-[#1a2e2e] p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2a3f3f] has-[:checked]:shadow-[0_0_4px_rgba(0,0,0,0.1)] has-[:checked]:text-[#111818] dark:has-[:checked]:text-white text-[#5f8c8c] text-sm font-medium leading-normal">
+<span class="truncate">Overview</span>
+<input class="invisible w-0" name="tab-selection" type="radio" value="Overview"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2a3f3f] has-[:checked]:shadow-[0_0_4px_rgba(0,0,0,0.1)] has-[:checked]:text-[#111818] dark:has-[:checked]:text-white text-[#5f8c8c] text-sm font-medium leading-normal">
+<span class="truncate">Payouts</span>
+<input checked="" class="invisible w-0" name="tab-selection" type="radio" value="Payouts"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2a3f3f] has-[:checked]:shadow-[0_0_4px_rgba(0,0,0,0.1)] has-[:checked]:text-[#111818] dark:has-[:checked]:text-white text-[#5f8c8c] text-sm font-medium leading-normal">
+<span class="truncate">Members</span>
+<input class="invisible w-0" name="tab-selection" type="radio" value="Members"/>
+</label>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<div class="flex flex-col gap-2 pb-10">
+<!-- Pending Disbursement Action Panel -->
+<div class="p-4 @container">
+<div class="flex flex-1 flex-col items-start justify-between gap-4 rounded-xl border border-[#06e0e0]/30 bg-white dark:bg-[#1a2e2e] p-5 shadow-sm @[480px]:flex-row @[480px]:items-center">
+<div class="flex items-center gap-4">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined">pending_actions</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-[#111818] dark:text-white text-base font-bold leading-tight">Pending Disbursement</p>
+<p class="text-[#5f8c8c] text-sm font-normal leading-normal">Round 12 Winner: Abebe B. - $5,000</p>
+</div>
+</div>
+<button class="flex min-w-[120px] max-w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-[#111818] text-sm font-bold leading-normal transition-opacity hover:opacity-90 active:scale-95">
+<span class="truncate">Confirm Payout</span>
+</button>
+</div>
+</div>
+<!-- Section Header -->
+<div class="flex items-center justify-between px-4 pb-2 pt-2">
+<h3 class="text-[#111818] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Payout History</h3>
+<span class="text-[#5f8c8c] text-sm font-medium">11 Rounds Completed</span>
+</div>
+<!-- Ledger List -->
+<div class="bg-white dark:bg-[#1a2e2e] mx-4 rounded-xl border border-[#dbe6e6] dark:border-[#2a3f3f] overflow-hidden">
+<!-- List Item: Round 11 -->
+<div class="flex gap-4 px-4 py-4 justify-between border-b border-[#f0f5f5] dark:border-[#2a3f3f] last:border-0">
+<div class="flex items-start gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border-2 border-white dark:border-[#2a3f3f]" data-alt="Professional headshot of Martha T." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDdZRLxNCx72IIKln2GziRTN67vq2DinwLHtevMwhKtGMr2VJEMWmdNhPG5n6gABt7zJPm8ueoPcg6wJeHcZJvMY8wmhjJ2qvgFj0W9AZQoq0rD7hQh13IvdvQlWtMtMa7VB2mKYjL3wYOqBJSZswS5QUtdFjrLCTqPHC6tgWIchdQjrnlH9kjGMe0PSKl-9FNVvMbUjtdcjqjcbihnGqwg_FWp14D_xkYHSC6-hXXj7ReTSdZxARxNjLQbDzdYF6dgWvtU0w-0yT0");'></div>
+<div class="flex flex-1 flex-col justify-center">
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">RD 11</span>
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">Martha T.</p>
+</div>
+<p class="text-[#5f8c8c] text-xs font-normal leading-normal mt-1">Admin Signature: Oct 19, 2023 11:45 AM</p>
+</div>
+</div>
+<div class="flex flex-col items-end justify-center">
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">$5,000.00</p>
+<div class="flex items-center gap-1 text-emerald-500">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Paid</p>
+</div>
+</div>
+</div>
+<!-- List Item: Round 10 -->
+<div class="flex gap-4 px-4 py-4 justify-between border-b border-[#f0f5f5] dark:border-[#2a3f3f] last:border-0">
+<div class="flex items-start gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border-2 border-white dark:border-[#2a3f3f]" data-alt="Professional headshot of Samuel K." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpp_xf_9u2bn5T3dZ3qRFAHMziJSg_zWtGNXpi4kzqIKRA6s2O_j3RlbTk2djPSw3tnNGtNQIOxXeCkc5O2zQx_l840QEUJJXNNs-FjJn20Tiyk5nHPaYkx-ctvyflc7IafoEvp9QhyHEXwMRIQCS0zpmPmSn_BqOh8AOchrRhSNzpoN_to2YWZwVhSd4Sl7fDPkAwfF2no6A7hsLKtuA77BJXj9bCjmoj7uQFVhWXplSiKiTKL0id1xVPgajKTdVBHCDy5rhqPA0");'></div>
+<div class="flex flex-1 flex-col justify-center">
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">RD 10</span>
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">Samuel K.</p>
+</div>
+<p class="text-[#5f8c8c] text-xs font-normal leading-normal mt-1">Admin Signature: Oct 12, 2023 09:15 AM</p>
+</div>
+</div>
+<div class="flex flex-col items-end justify-center">
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">$5,000.00</p>
+<div class="flex items-center gap-1 text-emerald-500">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Paid</p>
+</div>
+</div>
+</div>
+<!-- List Item: Round 9 -->
+<div class="flex gap-4 px-4 py-4 justify-between border-b border-[#f0f5f5] dark:border-[#2a3f3f] last:border-0">
+<div class="flex items-start gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border-2 border-white dark:border-[#2a3f3f]" data-alt="Professional headshot of Linda G." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBuRRg5nwSdWwdOTu1ChKxmLXkcmq_aqwn5RB6FX6LYuri52mgTY6N5VLFC-LAl4CeRlNgvDgwWZMZ8TcrcF9qOdYF_ImRPrTqKALlGV5_XJW4Fs2kq9s1lr4u98RJgrBc-punx7hSUfQUWy9fFIspgWNm2C93Qg_xq6ID4RwfYBdQ9SdaTZJHFXq6rXJK3P3NzeRPFeaQRalf71onEwGmWOQvlOcMXfwZAASwU_uugNY7YJB4FRjn4rjPP3-kDEYAKKYSSFkL1EbU");'></div>
+<div class="flex flex-1 flex-col justify-center">
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">RD 09</span>
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">Linda G.</p>
+</div>
+<p class="text-[#5f8c8c] text-xs font-normal leading-normal mt-1">Admin Signature: Oct 05, 2023 02:22 PM</p>
+</div>
+</div>
+<div class="flex flex-col items-end justify-center">
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">$5,000.00</p>
+<div class="flex items-center gap-1 text-emerald-500">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Paid</p>
+</div>
+</div>
+</div>
+<!-- List Item: Round 8 -->
+<div class="flex gap-4 px-4 py-4 justify-between border-b border-[#f0f5f5] dark:border-[#2a3f3f] last:border-0">
+<div class="flex items-start gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border-2 border-white dark:border-[#2a3f3f]" data-alt="Professional headshot of David R." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCLiNzz-rutx7aY5DolmSE9t1sAHwuizDebR1nuWHWxtUL-Y86pwhpbHjKHf8zmVLiwpwgQGAVLVuJuiqsIb8jn6BAhhiI4dvf1HvaooN5da4BjkYA1QTybMhmj0RlMl6XztoEb5RgXxk-G1IVZzpwMwwuC0Fwc1PJf37o5nJvlw9hxNbOIdaUljouZF2XVeA7PdFAKUXB7fowFSnNhD_jtEynBvFQgLKJQC_cIOX7Cqosb1om26XoLsV6JxRuHpy91eoBmt5I6fbA");'></div>
+<div class="flex flex-1 flex-col justify-center">
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">RD 08</span>
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">David R.</p>
+</div>
+<p class="text-[#5f8c8c] text-xs font-normal leading-normal mt-1">Admin Signature: Sep 28, 2023 10:05 AM</p>
+</div>
+</div>
+<div class="flex flex-col items-end justify-center">
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">$5,000.00</p>
+<div class="flex items-center gap-1 text-emerald-500">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Paid</p>
+</div>
+</div>
+</div>
+<!-- List Item: Round 7 -->
+<div class="flex gap-4 px-4 py-4 justify-between border-b border-[#f0f5f5] dark:border-[#2a3f3f] last:border-0">
+<div class="flex items-start gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border-2 border-white dark:border-[#2a3f3f]" data-alt="Professional headshot of Hana M." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAidFOBYWBL1bLPwHX0h2kCIHy37dTpclzQZjaOEQX34CFN_VrZjr6B_GwSkhcomZKM4o2nrJ1SnyszIvTY1UXUJxEcmebsWOslukxCahX7X5hoFnW_sA5bI6lcI9WgmNNOKUiPDTukw7Wc_k9Zci4MaF0OdPI6SefJ5ExdZeDUeb55aAYyZRZ43uj7by03Rlsh1Wgh0mskAVDmuuuGTWN_SmI6ZZ28pdvVqXILuAHhT6U2VQfuMtSk5_xIc0Jqqm_8Bi10jGfHwdA");'></div>
+<div class="flex flex-1 flex-col justify-center">
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">RD 07</span>
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">Hana M.</p>
+</div>
+<p class="text-[#5f8c8c] text-xs font-normal leading-normal mt-1">Admin Signature: Sep 21, 2023 04:40 PM</p>
+</div>
+</div>
+<div class="flex flex-col items-end justify-center">
+<p class="text-[#111818] dark:text-white text-base font-bold leading-normal">$5,000.00</p>
+<div class="flex items-center gap-1 text-emerald-500">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Paid</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination / Footer Info -->
+<div class="px-4 py-6 text-center">
+<p class="text-[#5f8c8c] text-sm font-normal">Showing last 5 rounds of 11.</p>
+<button class="mt-4 text-primary text-sm font-bold flex items-center justify-center gap-1 mx-auto">
+                View All Rounds
+                <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+</button>
+</div>
+</div>
+<!-- Bottom Navigation Bar (iOS Style) -->
+<div class="fixed bottom-0 w-full bg-white dark:bg-background-dark border-t border-[#dbe6e6] dark:border-[#2a3f3f] flex justify-around items-center py-2 px-6">
+<div class="flex flex-col items-center gap-1 text-[#5f8c8c]">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px]">Home</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="text-[10px]">My Equbs</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-[#5f8c8c]">
+<span class="material-symbols-outlined">notifications</span>
+<span class="text-[10px]">Activity</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-[#5f8c8c]">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px]">Profile</span>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Record Partial Payment - EqubDigital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0bdada",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102222",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gray-900/40 flex items-end min-h-screen">
+<!-- Bottom Sheet Container -->
+<div class="relative flex h-auto max-h-[92vh] w-full flex-col bg-background-light dark:bg-background-dark rounded-t-3xl overflow-hidden shadow-2xl">
+<!-- BottomSheetHandle -->
+<div class="flex flex-col items-center bg-background-light dark:bg-background-dark pt-3 pb-1">
+<div class="h-1.5 w-12 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+</div>
+<!-- SectionHeader -->
+<div class="relative flex items-center justify-between px-4 py-2">
+<button class="text-gray-500 dark:text-gray-400 p-2">
+<span class="material-symbols-outlined">close</span>
+</button>
+<h4 class="text-gray-900 dark:text-white text-base font-bold leading-normal tracking-tight">Record Partial Payment</h4>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</div>
+<!-- Scrollable Content -->
+<div class="overflow-y-auto flex-1 pb-10">
+<!-- ProfileHeader -->
+<div class="flex p-6 @container">
+<div class="flex w-full flex-col gap-4 items-center">
+<div class="flex gap-4 flex-col items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-24 w-24 border-4 border-white dark:border-gray-800 shadow-sm" data-alt="Portrait of Abel Tesfaye for member profile" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAmRsJhi3MHZ9vuyvXiyx9Hs03U5nE5a8h0CoMRRtqrNWp_v_HVzFCeakJsNmPkeGIILwZjTV3CLqrY0U3kQelU10lzI5djDX_ffX6WDS4opcJKqYh_FTfqDbcub9fiVND4xPgUCwuth6cEkT4-Xz1MVXMtM1qCG0S6uEr2wPLA4W4Pj5P6wviPyqg6sUwaSrW87KJo0u50zXGaRQe2GTZjimd6pmrRz5u9MjAZJPyODaZDWPNT4E75WUcqxP-GZFMiThdZhIouAwY");'>
+</div>
+<div class="flex flex-col items-center justify-center">
+<p class="text-gray-900 dark:text-white text-2xl font-bold leading-tight tracking-tight text-center">Abel Tesfaye</p>
+<div class="mt-1 px-3 py-1 bg-primary/10 rounded-full">
+<p class="text-primary text-sm font-semibold leading-normal text-center uppercase tracking-wider">Expected: 1,000 ETB</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- TextField (Amount Input) -->
+<div class="px-6 py-2">
+<label class="flex flex-col w-full">
+<p class="text-gray-700 dark:text-gray-300 text-sm font-medium leading-normal pb-3 uppercase tracking-wide">Received Amount</p>
+<div class="flex w-full items-stretch rounded-xl border-2 border-primary/30 focus-within:border-primary bg-white dark:bg-gray-800 transition-colors">
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent h-16 text-2xl font-bold text-gray-900 dark:text-white placeholder:text-gray-400 focus:ring-0 px-4" placeholder="0.00" type="number" value="500"/>
+<div class="flex items-center pr-4">
+<span class="text-gray-500 dark:text-gray-400 font-bold text-lg">ETB</span>
+</div>
+</div>
+</label>
+</div>
+<!-- ActionPanel (Arrears Warning) -->
+<div class="px-6 py-4">
+<div class="flex flex-1 flex-col items-start justify-between gap-4 rounded-xl border border-amber-200 bg-amber-50 dark:bg-amber-900/20 dark:border-amber-900/30 p-4">
+<div class="flex gap-3 items-center">
+<div class="bg-amber-100 dark:bg-amber-800 p-2 rounded-lg text-amber-600 dark:text-amber-400">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div class="flex flex-col">
+<p class="text-amber-900 dark:text-amber-200 text-sm font-bold leading-tight">Remaining Balance: 500 ETB</p>
+<p class="text-amber-700 dark:text-amber-400 text-xs font-normal leading-normal">This amount will be marked as Arrears for the current cycle.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Audit Note Field -->
+<div class="px-6 py-2">
+<label class="flex flex-col w-full">
+<p class="text-gray-700 dark:text-gray-300 text-sm font-medium leading-normal pb-3 uppercase tracking-wide">Add Note (Internal)</p>
+<textarea class="form-textarea w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary p-4 h-24 text-sm resize-none" placeholder="Add a note for audit purposes..."></textarea>
+</label>
+</div>
+<!-- Submit Button Area -->
+<div class="px-6 py-8">
+<button class="w-full bg-primary hover:bg-primary/90 text-gray-900 font-bold text-lg py-4 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
+                    Confirm Partial Payment
+                </button>
+<p class="text-center text-gray-500 dark:text-gray-400 text-xs mt-4">
+                    Transaction will be logged on <span class="font-semibold">Oct 24, 2023</span>
+</p>
+</div>
+</div>
+<!-- iOS Safe Area Spacer -->
+<div class="h-8 bg-background-light dark:bg-background-dark"></div>
+</div>
+</body></html>

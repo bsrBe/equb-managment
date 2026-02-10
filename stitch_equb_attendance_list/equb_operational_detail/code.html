@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Equb Operational Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2f2",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102222",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            text-transform: uppercase;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-[#111818] dark:text-white font-display">
+<!-- Sticky Top Bar -->
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 ios-blur border-b border-gray-200 dark:border-gray-800">
+<div class="flex items-center p-4 justify-between">
+<div class="text-[#111818] dark:text-white flex size-10 shrink-0 items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined">arrow_back_ios</span>
+</div>
+<h2 class="text-[#111818] dark:text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Equb Operational Detail</h2>
+<div class="flex size-10 items-center justify-end">
+<button class="flex cursor-pointer items-center justify-center rounded-lg h-10 w-10 bg-transparent text-[#111818] dark:text-white">
+<span class="material-symbols-outlined">file_download</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-md mx-auto pb-24">
+<!-- The Pulse Section -->
+<section class="bg-white dark:bg-background-dark p-4 border-b border-gray-100 dark:border-gray-800">
+<div class="flex items-center justify-between pb-2">
+<h3 class="text-[#111818] dark:text-white text-xl font-bold tracking-tight">The Pulse</h3>
+<span class="px-2 py-1 bg-primary/20 text-[#0a9c9c] dark:text-primary text-[10px] font-bold rounded uppercase tracking-widest">Live Audit</span>
+</div>
+<!-- Collection Progress -->
+<div class="flex flex-col gap-3 py-4 bg-background-light dark:bg-white/5 rounded-xl px-4 mt-2">
+<div class="flex gap-6 justify-between items-end">
+<div>
+<p class="text-[#111818] dark:text-white text-sm font-medium leading-none mb-1">Collection Progress</p>
+<p class="text-[#608a8a] text-xs font-normal">Round 8 of 24</p>
+</div>
+<p class="text-[#111818] dark:text-white text-2xl font-bold leading-none">75%</p>
+</div>
+<div class="rounded-full bg-gray-200 dark:bg-gray-700 h-2.5 overflow-hidden">
+<div class="h-full bg-primary" style="width: 75%;"></div>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-primary text-sm">emoji_events</span>
+<p class="text-[#111818] dark:text-white text-xs font-normal">Winner: <span class="font-semibold">Abebe Kebede</span></p>
+</div>
+</div>
+</section>
+<!-- Segmented Navigation -->
+<div class="sticky top-[73px] z-40 bg-white dark:bg-background-dark py-3 px-4 shadow-sm">
+<div class="flex h-11 items-center justify-center rounded-xl bg-gray-100 dark:bg-white/5 p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-gray-700 has-[:checked]:shadow-sm has-[:checked]:text-[#111818] dark:has-[:checked]:text-white text-[#608a8a] text-sm font-semibold transition-all">
+<span class="truncate">Attendance</span>
+<input checked="" class="hidden" name="view-toggle" type="radio" value="Attendance"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-gray-700 has-[:checked]:shadow-sm has-[:checked]:text-[#111818] dark:has-[:checked]:text-white text-[#608a8a] text-sm font-semibold transition-all">
+<span class="truncate">Payouts</span>
+<input class="hidden" name="view-toggle" type="radio" value="Payouts"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-gray-700 has-[:checked]:shadow-sm has-[:checked]:text-[#111818] dark:has-[:checked]:text-white text-[#608a8a] text-sm font-semibold transition-all">
+<span class="truncate">Insights</span>
+<input class="hidden" name="view-toggle" type="radio" value="Insights"/>
+</label>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="px-4 py-4">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-400 text-lg">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border-none bg-white dark:bg-white/5 rounded-xl text-sm focus:ring-2 focus:ring-primary/50 placeholder-gray-400 dark:text-white" placeholder="Search members..." type="text"/>
+</div>
+</div>
+<!-- Members List -->
+<div class="px-4 space-y-3">
+<p class="text-[#608a8a] text-xs font-bold uppercase tracking-widest px-1">Member Ledger</p>
+<!-- Member Row 1 -->
+<div class="bg-white dark:bg-white/5 rounded-xl p-4 flex items-center justify-between border border-transparent hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+<img alt="Abebe" class="w-full h-full object-cover" data-alt="Member avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyAxrgL7wYPUulyZ46o34LlWUsOQBppAq5gFylPOC_Ap0kJe_l60BwUv-oO3MDkcjkrIYrWaUIoxwjs0YB567Q07FAbuP8ljTOhM4jChEg5-pDrmFmAmPCyRXbkv9vocUhzo4pHLZpvczzcvN6vhzR7XQ2VhFA5Mg2A9pna4T50Yzo-wUxvhe1gzWjyWVKAdHua9s2mmbq8dNNKcGL8S50wrEmOxh9dTVdGGtV0J8DJw6pGn7ReYdB4w9nEqENFnC2_Wx2ZvA_rvA"/>
+</div>
+<div>
+<p class="text-sm font-bold text-[#111818] dark:text-white">Abebe Kebede</p>
+<p class="text-xs text-[#608a8a]">1.5 Shares · Round 8</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-[#111818] dark:text-white">15,000 ETB</p>
+<span class="status-badge bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Paid</span>
+</div>
+</div>
+<!-- Member Row 2 -->
+<div class="bg-white dark:bg-white/5 rounded-xl p-4 flex items-center justify-between border border-transparent hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+<img alt="Sara" class="w-full h-full object-cover" data-alt="Member avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlxjg0-u007vh_S4ZvN8zvxRP2JzO6Lt_qklLBdOHSradfBA96H8rtPTHrN3k0kCVtuwt40kt85eJxv32wpxTORzLXy7luJBglSc-fkIS9JYDJgm-TFuhLxmrry8iQnuq8_ubMW0-IOtDXm2lNcOseJ5w1ZN2yfeiW71Rb8gv--XI7UCHn2BzvP3Kb9MJCP6jv3udtRRxPblirhWmUBjEJnXzqdwxyErkh3drJLBtJg5iqZijl0WYclICyv12IycBbpGFw9rkBPSk"/>
+</div>
+<div>
+<p class="text-sm font-bold text-[#111818] dark:text-white">Sara Tekle</p>
+<p class="text-xs text-[#608a8a]">1.0 Share · Round 8</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-[#111818] dark:text-white">10,000 ETB</p>
+<span class="status-badge bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">Unpaid</span>
+</div>
+</div>
+<!-- Member Row 3 -->
+<div class="bg-white dark:bg-white/5 rounded-xl p-4 flex items-center justify-between border border-transparent hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+<img alt="Dawit" class="w-full h-full object-cover" data-alt="Member avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqH-sNWcTH8gCuD-x7exHK1jPEyURr057zFEp15ZNrOnzbWoZ_cxP_cboWJmMXjfqv-iDswmIAqmjMkyybvuJxAWgerR7Wff6XqaC8gNXJGAdFfSH7-pCEl4ZoEjvmyiKVWPNRwwqjMzCrf1NvuSRhWxOlUNy6xDmf0cdLXQAyhseNzCKB9YOYQLZRPbcjlBv-LNU-WsQq1UMqFB48ESosfgwAIuNt0JYxRRMYHdMTAeFtXi_RFO-o51y5vu_tLaUi0SUbtnFq-HY"/>
+</div>
+<div>
+<p class="text-sm font-bold text-[#111818] dark:text-white">Dawit Girma</p>
+<p class="text-xs text-[#608a8a]">2.0 Shares · Round 8</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-[#111818] dark:text-white">20,000 ETB</p>
+<span class="status-badge bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Paid</span>
+</div>
+</div>
+<!-- Member Row 4 -->
+<div class="bg-white dark:bg-white/5 rounded-xl p-4 flex items-center justify-between border border-transparent hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+<img alt="Lidiya" class="w-full h-full object-cover" data-alt="Member avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo0ON3SD4KWIh6ODS0Gpjt_L0F_jU0ZE-rwJc-91PpDuoIuJiXeUERHQWCtNOIkNfY_iwhCOzZg5I-vFFP6KHsPg6TmR5HP7xB0VG08NCyLsNHKQUhdTx_zbbEDdE4kZ706hRLvYjWhoPVeu9ag5eeEpnjoUNmL51HbqLiA0Rwqdn0GiB5N-e5kKlhB8YZFtoFcUVCWya_OC-CZM61FXTJo0tcSvlOsqgVe4e3KYYsDdLQLw2s9EsN_hoY_iKvLFyNi6akWpQzuew"/>
+</div>
+<div>
+<p class="text-sm font-bold text-[#111818] dark:text-white">Lidiya Bekele</p>
+<p class="text-xs text-[#608a8a]">1.0 Share · Round 8</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-[#111818] dark:text-white">10,000 ETB</p>
+<span class="status-badge bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Paid</span>
+</div>
+</div>
+<!-- Member Row 5 -->
+<div class="bg-white dark:bg-white/5 rounded-xl p-4 flex items-center justify-between border border-transparent hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+<img alt="Mulugeta" class="w-full h-full object-cover" data-alt="Member avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkAb1-JV21VvPHvg-YDyZe-DCP-7DzXzetL1BV0C7jV-EQwdyleh_MiDbidJINS3ehuSLrll0ZEOnlRqzQgFtSlowaTmW_APfry6ewyzXOxUbjzbbapsSU6DG8kELI6T9vluDDH_STomA7gEWhFIyrrIRCU0fxTMw6py5kOV3uGLbTCC9Ow90JOEsoOczZ9LNZkxVFxM1R_RKNF-WvdG1EhRbfNRn6UqqMVv1K166w0LPFActDLwik3BhjXL8GAZbhrVOXJDCwh6g"/>
+</div>
+<div>
+<p class="text-sm font-bold text-[#111818] dark:text-white">Mulugeta Zenawi</p>
+<p class="text-xs text-[#608a8a]">0.5 Share · Round 8</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-[#111818] dark:text-white">5,000 ETB</p>
+<span class="status-badge bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">Unpaid</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Bottom CTA -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-white/80 dark:bg-background-dark/80 ios-blur border-t border-gray-200 dark:border-gray-800 flex justify-center">
+<button class="w-full max-w-md bg-primary hover:bg-primary/90 text-background-dark font-bold py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">analytics</span>
+            Settle Round 8
+        </button>
+</div>
+</body></html>

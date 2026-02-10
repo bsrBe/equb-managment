@@ -2,6 +2,17 @@
 /dist
 /node_modules
 /build
+/android-sdk
+
+# Backend specific
+backend/dist
+backend/node_modules
+backend/.env
+
+# Frontend specific (if not covered by nested .gitignore)
+frontend/**/dist
+frontend/**/node_modules
+frontend/**/build
 
 # Logs
 logs
@@ -54,4 +65,3 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-

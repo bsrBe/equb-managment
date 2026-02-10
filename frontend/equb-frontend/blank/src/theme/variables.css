@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+    --color-equb-primary: #007f80;
+    --color-equb-primary-dark: #004d4d;
+    --color-equb-primary-light: #E0F2F1;
+    --color-equb-success: #10B981;
+    --color-equb-danger: #EF4444;
+
+    --color-equb-text-dark: #111818;
+    --color-equb-text-gray: #6B7280;
+    --color-equb-text-light: #9CA3AF;
+
+    --color-equb-bg: #F5F7FA;
+    --color-equb-bg-dark: #102222;
+    --color-equb-card: #FFFFFF;
+
+    --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+:root {
+    /* Ionic CSS Variables */
+    --ion-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --ion-background-color: #F5F7FA;
+    --ion-text-color: #111818;
+    --ion-color-primary: #007f80;
+    --ion-color-primary-rgb: 0, 127, 128;
+    --ion-color-primary-contrast: #FFFFFF;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #007070;
+    --ion-color-primary-tint: #1a8c8c;
+}
+
+body {
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Global Button Reset */
+button {
+    border-radius: inherit;
+}
+
+/* Custom Component Classes */
+@layer components {
+
+    /* Kept for reference but inline styles are preferred for specificity */
+    .btn-primary {
+        @apply flex items-center justify-center bg-[var(--color-equb-primary)] text-white font-bold rounded-lg min-h-[44px] px-6 transition-all active:scale-[0.98] active:brightness-90 disabled:bg-[#E0E0E0] disabled:text-gray-500 disabled:cursor-not-allowed disabled:active:scale-100 disabled:active:brightness-100;
+    }
+}
