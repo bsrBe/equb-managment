@@ -30,12 +30,24 @@ const ForgotPassword: React.FC = () => {
         } catch (err) {
             console.error(err);
             const error = err as ApiError;
-            present({
-                message: error.response?.data?.message || 'User not found or security question not set.',
-                duration: 3000,
-                color: 'danger',
-                position: 'top'
-            });
+            const message = error.response?.data?.message || '';
+
+            if (message.includes('No security question set')) {
+                present({
+                    message: "You haven't set up security questions yet. Please log in with your password to set them up in your profile.",
+                    duration: 5000,
+                    color: 'warning',
+                    position: 'top'
+                });
+                history.push('/login');
+            } else {
+                present({
+                    message: message || 'Admin not found for this phone number.',
+                    duration: 3000,
+                    color: 'danger',
+                    position: 'top'
+                });
+            }
         } finally {
             setIsLoading(false);
         }
@@ -115,7 +127,8 @@ const ForgotPassword: React.FC = () => {
                                             type="tel"
                                             value={phone}
                                             onChange={(e) => setPhone(e.target.value)}
-                                            className="w-full pl-14 pr-4 h-14 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#007f80] focus:ring-1 focus:ring-[#007f80] transition-all font-medium text-[#111818]"
+                                            className="w-full pl-14 pr-4 h-14 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#007f80] focus:ring-1 focus:ring-[#007f80] transition-all font-bold text-[#111818] placeholder-gray-400"
+                                            style={{ color: '#111818' }}
                                             placeholder="912345678"
                                             required
                                         />
@@ -147,7 +160,8 @@ const ForgotPassword: React.FC = () => {
                                             type="text"
                                             value={securityAnswer}
                                             onChange={(e) => setSecurityAnswer(e.target.value)}
-                                            className="w-full pl-14 pr-4 h-14 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#007f80] focus:ring-1 focus:ring-[#007f80] transition-all font-medium text-[#111818]"
+                                            className="w-full pl-14 pr-4 h-14 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#007f80] focus:ring-1 focus:ring-[#007f80] transition-all font-bold text-[#111818] placeholder-gray-400"
+                                            style={{ color: '#111818' }}
                                             placeholder="Enter your answer"
                                             required
                                         />
@@ -164,7 +178,8 @@ const ForgotPassword: React.FC = () => {
                                             type="password"
                                             value={newPassword}
                                             onChange={(e) => setNewPassword(e.target.value)}
-                                            className="w-full pl-14 pr-4 h-14 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#007f80] focus:ring-1 focus:ring-[#007f80] transition-all font-medium text-[#111818]"
+                                            className="w-full pl-14 pr-4 h-14 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#007f80] focus:ring-1 focus:ring-[#007f80] transition-all font-bold text-[#111818] placeholder-gray-400"
+                                            style={{ color: '#111818' }}
                                             placeholder="••••••••"
                                             required
                                             minLength={6}

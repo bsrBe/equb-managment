@@ -74,7 +74,8 @@ const RegisterMember: React.FC = () => {
                                 <label className="flex flex-col w-full">
                                     <p className="text-[#101818] text-sm font-bold uppercase tracking-wider leading-normal pb-3">Full Name</p>
                                     <input
-                                        className="form-input flex w-full rounded-2xl text-[#101818] focus:outline-0 focus:ring-4 focus:ring-[#007f80]/10 border border-[#dae7e7] bg-white focus:border-[#007f80] h-16 placeholder:text-gray-300 p-[20px] text-lg font-medium transition-all shadow-sm"
+                                        className="form-input flex w-full rounded-2xl text-[#101818] focus:outline-0 focus:ring-4 focus:ring-[#007f80]/10 border border-[#dae7e7] bg-white focus:border-[#007f80] h-16 placeholder:text-gray-400 p-[20px] text-lg font-bold transition-all shadow-sm"
+                                        style={{ color: '#101818' }}
                                         placeholder="e.g. Abel Tesfaye"
                                         type="text"
                                         value={name}
@@ -100,7 +101,8 @@ const RegisterMember: React.FC = () => {
                                     {/* Phone Input */}
                                     <label className="flex-1">
                                         <input
-                                            className={`form-input flex w-full rounded-2xl text-[#101818] focus:outline-0 focus:ring-4 focus:ring-[#007f80]/10 border ${error ? 'border-red-500' : 'border-[#dae7e7]'} bg-white focus:border-[#007f80] h-16 placeholder:text-gray-300 p-[20px] text-lg font-medium transition-all shadow-sm`}
+                                            className={`form-input flex w-full rounded-2xl text-[#101818] focus:outline-0 focus:ring-4 focus:ring-[#007f80]/10 border ${error ? 'border-red-500' : 'border-[#dae7e7]'} bg-white focus:border-[#007f80] h-16 placeholder:text-gray-400 p-[20px] text-lg font-bold transition-all shadow-sm`}
+                                            style={{ color: '#101818' }}
                                             type="tel"
                                             placeholder="911 22 33 44"
                                             value={phone}

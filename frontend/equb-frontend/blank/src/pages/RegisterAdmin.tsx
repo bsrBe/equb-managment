@@ -82,7 +82,8 @@ const RegisterAdmin: React.FC = () => {
                                         type="text"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 focus:border-[#007f80]"
+                                        className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 focus:border-[#007f80] font-bold text-[#111818] placeholder-gray-400"
+                                        style={{ color: '#111818' }}
                                         placeholder="John Doe"
                                         required
                                     />
@@ -100,7 +101,8 @@ const RegisterAdmin: React.FC = () => {
                                         type="tel"
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
-                                        className="w-full pl-16 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 focus:border-[#007f80]"
+                                        className="w-full pl-16 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 focus:border-[#007f80] font-bold text-[#111818] placeholder-gray-400"
+                                        style={{ color: '#111818' }}
                                         placeholder="912345678"
                                         required
                                     />
@@ -118,7 +120,8 @@ const RegisterAdmin: React.FC = () => {
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 focus:border-[#007f80]"
+                                        className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 focus:border-[#007f80] font-bold text-[#111818] placeholder-gray-400"
+                                        style={{ color: '#111818' }}
                                         placeholder="admin@example.com"
                                         required
                                     />
@@ -136,7 +139,8 @@ const RegisterAdmin: React.FC = () => {
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 focus:border-[#007f80]"
+                                        className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 focus:border-[#007f80] font-bold text-[#111818] placeholder-gray-400"
+                                        style={{ color: '#111818' }}
                                         placeholder="••••••••"
                                         required
                                         minLength={6}

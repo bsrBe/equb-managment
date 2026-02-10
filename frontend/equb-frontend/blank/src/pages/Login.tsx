@@ -33,7 +33,11 @@ const Login: React.FC = () => {
             localStorage.setItem('access_token', accessToken);
             localStorage.setItem('user', JSON.stringify(admin));
 
-            history.push('/dashboard');
+            if (!admin.securityQuestion) {
+                history.push('/setup', { forceSecurity: true });
+            } else {
+                history.push('/dashboard');
+            }
         } catch (err) {
             console.error('Login error:', err);
             let message = 'Login failed. Please check your credentials.';
@@ -95,7 +99,8 @@ const Login: React.FC = () => {
                                             type="tel"
                                             value={phone}
                                             onChange={(e) => setPhone(e.target.value)}
-                                            className="w-full pl-16 pr-4 py-4 bg-white border border-[#dae7e7] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 text-base font-normal text-[#101818] h-14"
+                                            className="w-full pl-16 pr-4 py-4 bg-white border border-[#dae7e7] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 text-base font-bold text-[#101818] h-14 placeholder-gray-400"
+                                            style={{ color: '#101818' }}
                                             placeholder="912345678"
                                             required
                                         />
@@ -112,7 +117,8 @@ const Login: React.FC = () => {
                                             type={showPassword ? "text" : "password"}
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
-                                            className="w-full px-4 py-4 bg-white border border-[#dae7e7] border-r-0 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 text-base font-normal text-[#101818] h-14 placeholder:text-[#5e8d8d]"
+                                            className="w-full px-4 py-4 bg-white border border-[#dae7e7] border-r-0 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#007f80]/20 text-base font-bold text-[#101818] h-14 placeholder-gray-400"
+                                            style={{ color: '#101818' }}
                                             placeholder="••••••••"
                                             required
                                         />

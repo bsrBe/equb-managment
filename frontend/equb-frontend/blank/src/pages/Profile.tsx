@@ -1,13 +1,14 @@
 import { IonContent, IonPage, IonIcon, IonSpinner, IonModal, IonToast } from '@ionic/react';
 import { logOut, shieldCheckmark, chevronForward, createOutline, mail, call, close } from 'ionicons/icons';
 import { useState, useEffect, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { equbApi } from '../services/equbApi';
 import { Admin, ApiError } from '../types/equb.types';
 import BottomNav from '../components/BottomNav';
 
 const Profile: React.FC = () => {
     const history = useHistory();
+    const location = useLocation<{ forceSecurity?: boolean }>();
     const [profile, setProfile] = useState<Admin | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -60,6 +61,15 @@ const Profile: React.FC = () => {
     useEffect(() => {
         fetchProfile();
     }, [fetchProfile]);
+
+    // Auto-open security modal if redirected from login for setup
+    useEffect(() => {
+        if (location.state?.forceSecurity) {
+            setIsSecurityModalOpen(true);
+            setToastMessage('Welcome! Please set your security question to continue.');
+            setShowToast(true);
+        }
+    }, [location.state]);
 
     const handleLogout = () => {
         localStorage.removeItem('access_token');
@@ -267,7 +277,7 @@ const Profile: React.FC = () => {
                                         type="text"
                                         value={editForm.name}
                                         onChange={e => setEditForm(prev => ({ ...prev, name: e.target.value }))}
-                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none"
+                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none placeholder-gray-400"
                                         style={{ color: '#111818' }}
                                         placeholder="Enter name"
                                     />
@@ -278,7 +288,7 @@ const Profile: React.FC = () => {
                                         type="email"
                                         value={editForm.email}
                                         onChange={e => setEditForm(prev => ({ ...prev, email: e.target.value }))}
-                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none"
+                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none placeholder-gray-400"
                                         style={{ color: '#111818' }}
                                         placeholder="Enter email"
                                     />
@@ -289,7 +299,7 @@ const Profile: React.FC = () => {
                                         type="tel"
                                         value={editForm.phone}
                                         onChange={e => setEditForm(prev => ({ ...prev, phone: e.target.value }))}
-                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none"
+                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none placeholder-gray-400"
                                         style={{ color: '#111818' }}
                                         placeholder="Enter phone"
                                     />
@@ -304,7 +314,7 @@ const Profile: React.FC = () => {
                                                 type="password"
                                                 value={editForm.oldPassword}
                                                 onChange={e => setEditForm(prev => ({ ...prev, oldPassword: e.target.value }))}
-                                                className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none"
+                                                className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none placeholder-gray-400"
                                                 style={{ color: '#111818' }}
                                                 placeholder="Required for password change"
                                             />
@@ -315,7 +325,7 @@ const Profile: React.FC = () => {
                                                 type="password"
                                                 value={editForm.newPassword}
                                                 onChange={e => setEditForm(prev => ({ ...prev, newPassword: e.target.value }))}
-                                                className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none"
+                                                className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none placeholder-gray-400"
                                                 style={{ color: '#111818' }}
                                                 placeholder="Leave blank to keep current"
                                             />
@@ -368,7 +378,7 @@ const Profile: React.FC = () => {
                                         type="password"
                                         value={securityForm.password}
                                         onChange={e => setSecurityForm(prev => ({ ...prev, password: e.target.value }))}
-                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none"
+                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none placeholder-gray-400"
                                         style={{ color: '#111818' }}
                                         placeholder="Verify your identity"
                                     />
@@ -379,7 +389,7 @@ const Profile: React.FC = () => {
                                         type="text"
                                         value={securityForm.question}
                                         onChange={e => setSecurityForm(prev => ({ ...prev, question: e.target.value }))}
-                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none"
+                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none placeholder-gray-400"
                                         style={{ color: '#111818' }}
                                         placeholder="e.g. What is your mother's maiden name?"
                                     />
@@ -390,7 +400,7 @@ const Profile: React.FC = () => {
                                         type="text"
                                         value={securityForm.answer}
                                         onChange={e => setSecurityForm(prev => ({ ...prev, answer: e.target.value }))}
-                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none"
+                                        className="w-full h-14 bg-white border-2 border-transparent focus:border-equb-primary rounded-[20px] px-5 font-bold text-[#111818] transition-all outline-none placeholder-gray-400"
                                         style={{ color: '#111818' }}
                                         placeholder="Enter your answer"
                                     />
