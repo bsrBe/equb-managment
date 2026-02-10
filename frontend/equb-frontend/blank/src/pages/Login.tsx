@@ -18,7 +18,7 @@ const Login: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const API_URL = import.meta.env.VITE_API_URL || 'https://equb-managment.onrender.com';
 
             // Append prefix for API logic if needed, but UI shows separated
             const fullPhone = `+251${phone}`;
