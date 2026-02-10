@@ -128,10 +128,6 @@ const EqubDetails: React.FC = () => {
         try {
             const status = isCurrentlyPaid ? 'MISSED' : 'PAID';
             console.log(`Updating attendance for member: ${memberId}, period: ${period.id}, status: ${status}`);
-            // In a real app, we'd have a toggle endpoint or handle delete/update
-            // For now, we'll create a PAID record. 
-            // If it already exists, the backend Unique constraint might error, 
-            // so we should handle that or the backend should upsert.
             const result = await equbApi.createAttendance({
                 equbMemberId: memberId,
                 periodId: period.id,
@@ -191,7 +187,7 @@ const EqubDetails: React.FC = () => {
                     <div className="flex flex-col items-center justify-center h-screen p-4 bg-[#f5f8f8]">
                         <p className="text-red-600 mb-4">{error || 'Equb not found'}</p>
                         <button
-                            onClick={() => history.push('/equbs')}
+                            onClick={() => history.push('/dashboard')}
                             className="px-4 py-2 bg-equb-primary text-white rounded-xl"
                         >
                             Back to Equbs

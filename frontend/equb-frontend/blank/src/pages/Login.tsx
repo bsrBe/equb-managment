@@ -33,7 +33,7 @@ const Login: React.FC = () => {
             localStorage.setItem('access_token', accessToken);
             localStorage.setItem('user', JSON.stringify(admin));
 
-            history.push('/equbs');
+            history.push('/dashboard');
         } catch (err) {
             console.error('Login error:', err);
             let message = 'Login failed. Please check your credentials.';
