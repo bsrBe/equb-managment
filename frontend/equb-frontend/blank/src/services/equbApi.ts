@@ -93,7 +93,7 @@ export const equbApi = {
   },
 
   registerUser: async (userData: { name: string; phone: string }) => {
-    const response = await apiClient.post<User>('/users', userData);
+    const response = await apiClient.post<User>('/user', userData);
     return response.data;
   },
 
@@ -111,21 +111,21 @@ export const equbApi = {
   },
 
   getAttendance: async (equbId: string, round?: number, limit?: number): Promise<Attendance[]> => {
-      const response = await apiClient.get(`/equbs/${equbId}/attendance`, {
-          params: { round, limit }
-      });
-      return response.data;
+    const response = await apiClient.get<{ data: Attendance[] }>('/attendance', {
+      params: { equbId, round, limit }
+    });
+    return response.data.data;
   },
 
   getPayouts: async (equbId: string, limit?: number): Promise<Payout[]> => {
-      const response = await apiClient.get(`/equbs/${equbId}/payouts`, {
-          params: { limit }
-      });
-      return response.data;
+    const response = await apiClient.get<{ data: Payout[] }>('/payout', {
+      params: { equbId, limit }
+    });
+    return response.data.data;
   },
 
   getUserMemberships: async (userId: string) => {
-    const response = await apiClient.get<EqubMember[]>(`/users/${userId}/memberships`, { 
+    const response = await apiClient.get<EqubMember[]>(`/user/${userId}/memberships`, { 
       params: { limit: 1000 } 
     });
     return response.data;

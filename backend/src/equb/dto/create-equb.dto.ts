@@ -1,4 +1,6 @@
 import { IsNotEmpty , IsEnum , IsDate , IsNumber , IsString, IsOptional } from "class-validator";
+import { Type } from "class-transformer";
+
 export class CreateEqubDto {
   @IsNotEmpty()
   @IsString()
@@ -9,6 +11,7 @@ export class CreateEqubDto {
   type: 'DAILY' | 'WEEKLY' | 'MONTHLY';
 
   @IsNotEmpty()
+  @Type(() => Date)
   @IsDate()
   startDate: Date;
 
@@ -34,12 +37,14 @@ export class EqubResponseDto {
     @IsNumber()
   defaultContributionAmount: number;
 
+    @Type(() => Date)
     @IsDate()
   startDate: Date;
 
     @IsString()
   status: 'ACTIVE' | 'COMPLETED';
 
+    @Type(() => Date)
     @IsDate()
   createdAt: Date;
 }
