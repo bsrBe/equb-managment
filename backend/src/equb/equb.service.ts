@@ -163,8 +163,6 @@ export class EqubService {
     }
 
     const [data, totalItems] = await query
-      .leftJoinAndSelect('equb.members', 'members')
-      .leftJoinAndSelect('members.user', 'user')
       .leftJoinAndSelect('equb.periods', 'periods')
       .skip(filter.skip)
       .take(filter.limit)

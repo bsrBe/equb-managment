@@ -16,31 +16,29 @@ export class ReportingService {
   ) {}
 
   async getDashboardStats(adminId: string) {
-    const adminEqubs = await this.equbRepo.createQueryBuilder('equb')
-      .leftJoinAndSelect('equb.members', 'members')
-      .leftJoinAndSelect('equb.periods', 'periods', 'periods.sequence = equb.currentRound')
-      .leftJoinAndSelect('periods.attendances', 'attendances')
-      .leftJoinAndSelect('attendances.equbMember', 'attendanceMember')
-      .where('equb.adminId = :adminId', { adminId })
-      .getMany();
+    const adminEqubs = await this.equbRepo.find({
+      where: { adminId },
+      relations: ['members', 'periods', 'periods.attendances', 'periods.attendances.equbMember'],
+    });
     
-    const activeEqubs = adminEqubs.filter(e => e.status === 'ACTIVE').length;
+    // Filter to only include the current period for each equb in memory
+    // and only active equbs for calculations
+    const activeEqubsList = adminEqubs.filter(e => e.status === 'ACTIVE');
+    const activeEqubsCount = activeEqubsList.length;
 
     const totalMembers = await this.memberRepo.count({ 
-      where: { equb: { admin: { id: adminId } } } 
+      where: { equb: { adminId: adminId } } 
     });
 
     let totalExpected = 0;
     let totalCollected = 0;
 
-    adminEqubs.forEach(e => {
-        if (e.status !== 'ACTIVE') return;
-        
+    activeEqubsList.forEach(e => {
         const base = Number(e.defaultContributionAmount);
-        const currentPeriod = e.periods && e.periods.length > 0 ? e.periods[0] : null;
+        // Find the period matching currentRound
+        const currentPeriod = e.periods?.find(p => p.sequence === e.currentRound);
         
         e.members?.forEach(m => {
-            // Calculate what this specific member SHOULD pay
             let memberGoal = 0;
             if (m.contributionType === 'CUSTOM') {
                 memberGoal = Number(m.customContributionAmount || 0);
@@ -53,7 +51,6 @@ export class ReportingService {
             
             totalExpected += memberGoal;
 
-            // Check if they actually PAID in this period
             if (currentPeriod) {
                 const paidAttendance = (currentPeriod.attendances || []).find(
                     a => a.equbMember?.id === m.id && a.status === 'PAID'
@@ -68,7 +65,7 @@ export class ReportingService {
     return {
       totalExpected,
       totalCollected,
-      activeEqubs,
+      activeEqubs: activeEqubsCount,
       totalMembers,
     };
   }

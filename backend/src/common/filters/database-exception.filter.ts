@@ -11,6 +11,17 @@ export class DatabaseExceptionFilter implements ExceptionFilter {
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal server error';
 
+    // Log the error for better visibility in production logs
+    console.error('Database Error:', {
+      name: exception.name,
+      message: exception.message,
+      code: (exception as any).code,
+      detail: (exception as any).detail,
+      query: (exception as any).query,
+      parameters: (exception as any).parameters,
+      path: request.url,
+    });
+
     // Postgres unique constraint violation
     if ((exception as any).code === '23505') {
       status = HttpStatus.CONFLICT;
