@@ -45,7 +45,16 @@ const MemberInsights: React.FC = () => {
 
             totalPaid += paidAttendances.length;
             totalMissed += missedAttendances.length;
-            totalSaved += paidAttendances.length * (membership.equb?.defaultContributionAmount || 0);
+
+            const contributionAmount = membership.contributionType === 'CUSTOM'
+                ? (membership.customContributionAmount || 0)
+                : (membership.equb?.defaultContributionAmount || 0) * (
+                    membership.contributionType === 'FULL' ? 1.0 :
+                        membership.contributionType === 'HALF' ? 0.5 :
+                            membership.contributionType === 'QUARTER' ? 0.25 : 1.0
+                );
+
+            totalSaved += paidAttendances.length * contributionAmount;
         });
 
         const totalRounds = totalPaid + totalMissed;
@@ -143,7 +152,15 @@ const MemberInsights: React.FC = () => {
                                     <div>
                                         <p className="text-[#101818] font-bold text-sm">{membership.equb?.name}</p>
                                         <p className="text-[#5e8d8d] text-xs mt-1">
-                                            {membership.contributionType} Share • {membership.equb?.defaultContributionAmount.toLocaleString()} ETB
+                                            {membership.equb?.type === 'DAILY' ? 'Daily Contribution' : `${membership.contributionType} Share`} • {
+                                                membership.contributionType === 'CUSTOM'
+                                                    ? (membership.customContributionAmount || 0).toLocaleString()
+                                                    : ((membership.equb?.defaultContributionAmount || 0) * (
+                                                        membership.contributionType === 'FULL' ? 1.0 :
+                                                            membership.contributionType === 'HALF' ? 0.5 :
+                                                                membership.contributionType === 'QUARTER' ? 0.25 : 1.0
+                                                    )).toLocaleString()
+                                            } ETB
                                         </p>
                                     </div>
                                     <span className={`px-3 py-1 text-[10px] font-bold rounded-lg uppercase tracking-wider ${membership.isActive ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-gray-50 text-gray-500 border border-gray-100'}`}>
@@ -165,8 +182,12 @@ const MemberInsights: React.FC = () => {
                                         strokeDasharray={circumference} strokeDashoffset={dashoffset} strokeLinecap="round" strokeWidth="12" />
                                 </svg>
                                 <div className="absolute flex flex-col items-center">
-                                    <span className="text-4xl font-black text-[#101818]">{consistency}%</span>
-                                    <span className="text-[10px] font-black text-[#007f80] mt-1 uppercase tracking-widest">{consistency >= 90 ? 'EXCELLENT' : consistency >= 75 ? 'GOOD' : 'AVERAGE'}</span>
+                                    <span className="text-4xl font-black text-[#101818]">
+                                        {memberships.some(m => m.equb?.type === 'DAILY') ? '∞' : `${consistency}%`}
+                                    </span>
+                                    <span className="text-[10px] font-black text-[#007f80] mt-1 uppercase tracking-widest">
+                                        {memberships.some(m => m.equb?.type === 'DAILY') ? 'DYNAMIC' : consistency >= 90 ? 'EXCELLENT' : consistency >= 75 ? 'GOOD' : 'AVERAGE'}
+                                    </span>
                                 </div>
                             </div>
                             <p className="mt-6 text-center text-sm text-[#5e8d8d] px-4 font-medium leading-relaxed">

@@ -1,9 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany, CreateDateColumn, UpdateDateColumn, Unique } from 'typeorm';
 import { Equb } from './equb.entity';
 import { Attendance } from '../../attendance/entities/attendance.entity';
 import { Payout } from '../../payout/entities/payout.entity';
 
 @Entity('periods')
+@Unique(['equbId', 'sequence'])
 export class Period {
   @PrimaryGeneratedColumn('uuid')
   id: string;

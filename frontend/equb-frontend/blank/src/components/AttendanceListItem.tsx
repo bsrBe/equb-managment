@@ -11,6 +11,7 @@ interface AttendanceListItemProps {
         };
         shareType: string;
         amount: number;
+        contributionDays?: number;
     };
     isPaid: boolean;
     onTogglePayment: (id: string) => void;
@@ -37,7 +38,7 @@ const AttendanceListItem: React.FC<AttendanceListItemProps> = ({ member, isPaid,
                     <p className="text-[10px] text-equb-text-gray font-bold uppercase tracking-wider mt-0.5">
                         {member.shareType === 'FULL' ? '1.0 Share' :
                             member.shareType === 'HALF' ? '1/2 Share' :
-                                member.shareType === 'QUARTER' ? '1/4 Share' : member.shareType} • <span className="text-equb-primary">{member.amount.toLocaleString()} ETB</span>
+                                member.shareType === 'QUARTER' ? '1/4 Share' : member.shareType} • <span className="text-equb-primary">{member.amount.toLocaleString()} ETB</span> {member.contributionDays !== undefined && `• ${member.contributionDays} Days`}
                     </p>
                 </div>
             </div>

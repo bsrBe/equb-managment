@@ -50,7 +50,8 @@ export class AuthService {
       throw new NotFoundException("User not Found")
     }
 
-    const isPasswordMatch = await bcrypt.compare(password,admin.password)
+    const isPasswordMatch = await bcrypt.compare(password, admin.password);
+    console.log(`[AuthService] Login attempt - Phone: ${phone}, Match: ${isPasswordMatch}`);
 
     if(!isPasswordMatch){
       throw new UnauthorizedException("Invalid Credentials")

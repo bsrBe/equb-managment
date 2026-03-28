@@ -15,8 +15,9 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
     const [formData, setFormData] = useState<CreateEqubDto>({
         name: '',
         type: 'WEEKLY',
-        startDate: '',
+        startDate: undefined,
         defaultContributionAmount: 0,
+        totalRounds: 74,
     });
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -31,8 +32,9 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
             setFormData({
                 name: '',
                 type: 'WEEKLY',
-                startDate: '',
+                startDate: undefined,
                 defaultContributionAmount: 0,
+                totalRounds: 74,
             });
             onSuccess();
             onClose();
@@ -108,7 +110,17 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
                                 <button
                                     key={freq}
                                     type="button"
-                                    onClick={() => handleChange('type', freq)}
+                                    onClick={() => {
+                                        handleChange('type', freq);
+                                        if (freq === 'WEEKLY') {
+                                            handleChange('totalRounds', 74);
+                                        } else if (freq === 'MONTHLY') {
+                                            handleChange('totalRounds', 12);
+                                        } else {
+                                            // DAILY might be infinite, but let's set a default or leave as is
+                                            handleChange('totalRounds', 365);
+                                        }
+                                    }}
                                     className={`flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 text-sm font-semibold transition-all ${formData.type === freq
                                         ? 'bg-white shadow-sm text-[#111818]'
                                         : 'text-[#608a8a] hover:text-gray-700'
@@ -137,7 +149,10 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
                                 min="1"
                                 step="100"
                                 value={formData.defaultContributionAmount || ''}
-                                onChange={(e) => handleChange('defaultContributionAmount', parseFloat(e.target.value))}
+                                onChange={(e) => {
+                                    const val = parseFloat(e.target.value);
+                                    handleChange('defaultContributionAmount', isNaN(val) ? 0 : Math.max(1, val));
+                                }}
                                 placeholder="0.00"
                                 className="flex-1 px-4 py-3.5 focus:outline-none text-xl font-bold bg-white"
                                 style={{ color: '#111827' }}
@@ -145,10 +160,33 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
                         </div>
                     </div>
 
-                    {/* Start Date */}
+                    {/* Total Rounds */}
                     <div>
                         <label className="block text-base font-semibold text-equb-text-dark mb-2">
+                            Total Rounds
+                        </label>
+                        <input
+                            type="number"
+                            required
+                            min="1"
+                            value={formData.totalRounds || ''}
+                            onChange={(e) => {
+                                const val = parseInt(e.target.value);
+                                handleChange('totalRounds', isNaN(val) ? 0 : Math.max(1, val));
+                            }}
+                            className="w-full px-4 py-3.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
+                            style={{ color: '#111827' }}
+                        />
+                        <p className="text-xs text-[#608a8a] mt-2">
+                            Number of payout cycles. Default is {formData.type === 'WEEKLY' ? '74' : '12'}.
+                        </p>
+                    </div>
+
+                    {/* Start Date */}
+                    <div>
+                        <label className="block text-base font-semibold text-equb-text-dark mb-2 flex items-center justify-between">
                             Start Date
+                            <span className="text-[10px] text-primary font-bold uppercase tracking-widest pl-2 opacity-60">Optional</span>
                         </label>
                         <div className="relative">
                             <div className="absolute left-4 top-1/2 transform -translate-y-1/2 pointer-events-none z-10">
@@ -156,8 +194,7 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
                             </div>
                             <input
                                 type="date"
-                                required
-                                value={formData.startDate}
+                                value={formData.startDate || ''}
                                 onChange={(e) => handleChange('startDate', e.target.value)}
                                 min={new Date().toISOString().split('T')[0]}
                                 className="w-full pl-14 pr-12 py-3.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
@@ -167,6 +204,9 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
                                 <IonIcon icon="chevron-forward-outline" className="text-xl text-gray-400" />
                             </div>
                         </div>
+                        <p className="text-[10px] text-[#608a8a] mt-2 italic">
+                            Leave empty to start as "Pending" (admin activation required).
+                        </p>
                     </div>
 
                     {/* Equb Summary */}

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException, ConflictException } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { Admin } from './entities/admin.entity';
@@ -12,11 +12,20 @@ export class AdminService {
     private adminRepository: Repository<Admin>,
   ) {}
   async create(createAdminDto: CreateAdminDto) {
+    const existingPhone = await this.adminRepository.findOneBy({ phone: createAdminDto.phone });
+    if (existingPhone) {
+      throw new ConflictException('An admin with this phone number already exists');
+    }
+
+    const existingEmail = await this.adminRepository.findOneBy({ email: createAdminDto.email });
+    if (existingEmail) {
+      throw new ConflictException('An admin with this email address already exists');
+    }
+
     const hashedPassword = await bcrypt.hash(createAdminDto.password, 10);
     const admin = this.adminRepository.create({
       ...createAdminDto,
       password: hashedPassword,
-      
     });
     return this.adminRepository.save(admin);
   }

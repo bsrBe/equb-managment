@@ -87,7 +87,28 @@ export const equbApi = {
     return response.data;
   },
 
-  createEqubMember: async (data: { equbId: string; userId: string; contributionType: 'FULL' | 'HALF' | 'QUARTER' }) => {
+  /**
+   * Merge winners for HALF/QUARTER memberships
+   */
+  mergePayout: async (data: { equbId: string; memberIds: string[]; periodId: string }) => {
+    const response = await apiClient.post('/payout/merge', data);
+    return response.data;
+  },
+
+  /**
+   * Start a pending Equb
+   */
+  start: async (id: string, startDate: string) => {
+    const response = await apiClient.post(`/equb/${id}/start`, { startDate });
+    return response.data;
+  },
+
+  createEqubMember: async (data: { 
+    equbId: string; 
+    userId: string; 
+    contributionType: 'FULL' | 'HALF' | 'QUARTER' | 'CUSTOM';
+    customContributionAmount?: number;
+  }) => {
     const response = await apiClient.post('/equb-member', data);
     return response.data;
   },
@@ -110,9 +131,14 @@ export const equbApi = {
     return response.data;
   },
 
-  getAttendance: async (equbId: string, round?: number, limit?: number): Promise<Attendance[]> => {
+  updateAttendance: async (data: { equbMemberId: string; periodId: string; status: 'PAID' | 'MISSED' }) => {
+    const response = await apiClient.post('/attendance', data);
+    return response.data;
+  },
+
+  getAttendance: async (equbId: string, periodId?: string, limit?: number): Promise<Attendance[]> => {
     const response = await apiClient.get<{ data: Attendance[] }>('/attendance', {
-      params: { equbId, round, limit }
+      params: { equbId, periodId, limit }
     });
     return response.data.data;
   },
@@ -156,6 +182,11 @@ export const equbApi = {
    */
   setSecurityQuestion: async (data: { password: string; question: string; answer: string }) => {
     const response = await apiClient.post('/auth/security-question', data);
+    return response.data;
+  },
+
+  getEligibleWinners: async (equbId: string) => {
+    const response = await apiClient.get<EqubMember[]>(`/equb-member/eligible/${equbId}`); // Wait, I didn't check this endpoint.
     return response.data;
   },
 

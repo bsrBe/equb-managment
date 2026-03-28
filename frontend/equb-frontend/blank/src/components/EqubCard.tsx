@@ -8,6 +8,8 @@ interface EqubCardProps {
     currentRound: number;
     totalRounds: number;
     progress: number;
+    status?: 'PENDING' | 'ACTIVE' | 'COMPLETED';
+    type?: 'DAILY' | 'WEEKLY' | 'MONTHLY';
     onClick?: () => void;
 }
 
@@ -16,12 +18,16 @@ const EqubCard: React.FC<EqubCardProps> = ({
     currentRound,
     totalRounds,
     progress,
+    status,
+    type,
     onClick,
 }) => {
     // SVG circle calculations for small progress ring
     const radius = 20;
     const circumference = 2 * Math.PI * radius;
-    const offset = circumference - (progress / 100) * circumference;
+    const isDaily = type === 'DAILY';
+    const displayProgress = isDaily ? 100 : progress;
+    const offset = circumference - (displayProgress / 100) * circumference;
 
     return (
         <div
@@ -32,9 +38,17 @@ const EqubCard: React.FC<EqubCardProps> = ({
                 {/* Text content */}
                 <div className="flex flex-col overflow-hidden">
                     <h3 className="text-sm font-bold text-equb-text-dark truncate leading-tight">{name}</h3>
-                    <p className="text-[10px] font-bold text-equb-text-gray uppercase tracking-tight mt-0.5">
-                        Round {currentRound} of {totalRounds}
-                    </p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                        <p className="text-[10px] font-bold text-equb-text-gray uppercase tracking-tight">
+                            {status === 'PENDING' ? 'Not Started' : isDaily ? 'Daily Savings' : `Round ${currentRound} of ${totalRounds}`}
+                        </p>
+                        {status === 'PENDING' && (
+                            <span className="text-[8px] font-black bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-md uppercase tracking-wider">Pending</span>
+                        )}
+                        {status === 'COMPLETED' && (
+                            <span className="text-[8px] font-black bg-green-100 text-green-700 px-1.5 py-0.5 rounded-md uppercase tracking-wider">Done</span>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -57,7 +71,7 @@ const EqubCard: React.FC<EqubCardProps> = ({
                             cx="24"
                             cy="24"
                             r={radius}
-                            stroke="var(--ion-color-primary)"
+                            stroke={isDaily ? "#0bdada" : "var(--ion-color-primary)"}
                             strokeWidth="4"
                             fill="none"
                             strokeDasharray={circumference}
@@ -66,7 +80,9 @@ const EqubCard: React.FC<EqubCardProps> = ({
                         />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-xs font-bold text-equb-text-dark">{progress}%</span>
+                        <span className={`text-${isDaily ? 'xl' : 'xs'} font-bold text-equb-text-dark`}>
+                            {isDaily ? '∞' : `${progress}%`}
+                        </span>
                     </div>
                 </div>
 

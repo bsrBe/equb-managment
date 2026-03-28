@@ -16,6 +16,8 @@ export interface EqubStats {
   averageAttendance: number;
   totalMembers: number;
   activePeriods: number;
+  recordedPeriodsCount?: number;
+  equbType?: 'DAILY' | 'WEEKLY' | 'MONTHLY';
 }
 
 export interface MemberStats {

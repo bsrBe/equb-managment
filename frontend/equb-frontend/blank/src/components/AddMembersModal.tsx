@@ -16,7 +16,8 @@ interface AddMembersModalProps {
 
 interface SelectedUser {
     user: User;
-    contributionType: 'FULL' | 'HALF' | 'QUARTER';
+    contributionType: 'FULL' | 'HALF' | 'QUARTER' | 'CUSTOM';
+    customContributionAmount?: number;
 }
 
 const AddMembersModal: React.FC<AddMembersModalProps> = ({
@@ -62,7 +63,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
         setSelectedUsers(newSelected);
     };
 
-    const handleContributionTypeChange = (userId: string, type: 'FULL' | 'HALF' | 'QUARTER') => {
+    const handleContributionTypeChange = (userId: string, type: 'FULL' | 'HALF' | 'QUARTER' | 'CUSTOM') => {
         const newSelected = new Map(selectedUsers);
         const existing = newSelected.get(userId);
         if (existing) {
@@ -76,11 +77,12 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
             setIsAdding(true);
             setError(null);
 
-            const promises = Array.from(selectedUsers.values()).map(({ user, contributionType }) =>
+            const promises = Array.from(selectedUsers.values()).map(({ user, contributionType, customContributionAmount }) =>
                 equbApi.createEqubMember({
                     equbId,
                     userId: user.id,
                     contributionType,
+                    customContributionAmount,
                 })
             );
 
@@ -187,8 +189,8 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                                             {isSelected && (
                                                 <div className="mt-3 pt-3 border-t border-gray-100">
                                                     <p className="text-xs font-bold text-[#5e8d8d] uppercase mb-2">Contribution Type</p>
-                                                    <div className="flex gap-2">
-                                                        {(['FULL', 'HALF', 'QUARTER'] as const).map((type) => (
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {(['FULL', 'HALF', 'QUARTER', 'CUSTOM'] as const).map((type) => (
                                                             <button
                                                                 key={type}
                                                                 onClick={() => handleContributionTypeChange(user.id, type)}
@@ -201,6 +203,26 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                                                             </button>
                                                         ))}
                                                     </div>
+
+                                                    {selectedData?.contributionType === 'CUSTOM' && (
+                                                        <div className="mt-3 animate-fade-in">
+                                                            <p className="text-xs font-bold text-[#5e8d8d] uppercase mb-2">Custom Amount (ETB)</p>
+                                                            <input
+                                                                type="number"
+                                                                min="1"
+                                                                value={selectedData.customContributionAmount || ''}
+                                                                onChange={(e) => {
+                                                                    const amount = parseFloat(e.target.value);
+                                                                    const newSelected = new Map(selectedUsers);
+                                                                    newSelected.set(user.id, { ...selectedData, customContributionAmount: amount });
+                                                                    newSelected.get(user.id)!.customContributionAmount = isNaN(amount) ? undefined : Math.max(1, amount);
+                                                                    setSelectedUsers(newSelected);
+                                                                }}
+                                                                className="w-full bg-[#f4f5f8] border-none rounded-xl py-3 px-4 text-sm font-bold text-[#101818] focus:ring-2 focus:ring-[#007f80]/20"
+                                                                placeholder="Enter amount..."
+                                                            />
+                                                        </div>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>

@@ -19,6 +19,11 @@ export class EqubController {
     return this.equbService.create(createEqubDto, admin.id);
   }
 
+  @Post(':id/start')
+  start(@Param('id') id: string, @Body('startDate') startDate: Date, @currentAdmin() admin: Admin) {
+    return this.equbService.startEqub(id, startDate, admin.id);
+  }
+
   @Get()
   findAll(@currentAdmin() admin: Admin, @Query() filter: EqubFilterDto) {
     return this.equbService.findAll(admin.id, filter);

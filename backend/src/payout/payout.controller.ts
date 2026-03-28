@@ -6,20 +6,36 @@ import { AuthGuard } from '@nestjs/passport';
 import { currentAdmin } from 'src/auth/decorators/current-admin.decorator';
 import { Admin } from 'src/admin/entities/admin.entity';
 import { PayoutFilterDto } from './dto/payout-filter.dto';
+import { RecordManualWinnerDto } from './dto/record-manual-winner.dto';
+import { MergePayoutDto } from './dto/merge-payout.dto';
 
 @Controller('payout')
 @UseGuards(AuthGuard('jwt'))
 export class PayoutController {
   constructor(private readonly payoutService: PayoutService) {}
 
-  @Post('select-random-winner')
-  selectRandomWinner(@Body() createPayoutDto: CreatePayoutDto, @currentAdmin() admin: Admin) {
+  @Post('merge')
+  recordMergedPayout(
+    @Body() mergePayoutDto: MergePayoutDto,
+    @currentAdmin() admin: Admin,
+  ) {
+    return this.payoutService.recordMergedPayout(
+      mergePayoutDto.equbId,
+      mergePayoutDto.memberIds,
+      mergePayoutDto.periodId,
+      admin.id,
+    );
+  }
+
+  @Post('random')
+  selectRandomWinner(
+    @Body() createPayoutDto: CreatePayoutDto, @currentAdmin() admin: Admin) {
     return this.payoutService.selectRandomWinner(createPayoutDto.equbId, createPayoutDto.periodId, admin.id);
   }
 
   @Post('record-manual-winner')
   recordManualWinner(
-    @Body() body: { equbId: string; memberId: string; periodId: string },
+    @Body() body: RecordManualWinnerDto,
     @currentAdmin() admin: Admin,
   ) {
     return this.payoutService.recordManualWinner(body.equbId, body.memberId, body.periodId, admin.id);

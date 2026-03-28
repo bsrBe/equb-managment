@@ -1,4 +1,4 @@
-import { IsNotEmpty , IsEnum , IsDate , IsNumber , IsString, IsOptional } from "class-validator";
+import { IsNotEmpty , IsEnum , IsDate , IsNumber , IsString, IsOptional, IsBoolean, Min } from "class-validator";
 import { Type } from "class-transformer";
 
 export class CreateEqubDto {
@@ -10,17 +10,32 @@ export class CreateEqubDto {
   @IsEnum(['DAILY' , 'WEEKLY' , 'MONTHLY'])
   type: 'DAILY' | 'WEEKLY' | 'MONTHLY';
 
-  @IsNotEmpty()
+  @IsOptional()
   @Type(() => Date)
   @IsDate()
-  startDate: Date;
+  startDate?: Date;
 
   @IsNotEmpty()
   @IsNumber()
+  @Min(1, { message: 'Contribution amount must be greater than 0' })
   defaultContributionAmount: number;
 
   @IsOptional()
   @IsNumber()
+  @Min(1, { message: 'Total rounds must be at least 1' })
+  totalRounds?: number;
+
+  @IsOptional()
+  @IsNumber()
+  payoutMultiplier?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  isInfinity?: boolean;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(1, { message: 'Expected member count must be at least 1' })
   expectedMemberCount?: number;
 }
 
@@ -39,10 +54,20 @@ export class EqubResponseDto {
 
     @Type(() => Date)
     @IsDate()
-  startDate: Date;
+    @IsOptional()
+  startDate?: Date;
 
-    @IsString()
-  status: 'ACTIVE' | 'COMPLETED';
+    @IsEnum(['PENDING' , 'ACTIVE' , 'COMPLETED'])
+  status: 'PENDING' | 'ACTIVE' | 'COMPLETED';
+
+    @IsNumber()
+  totalRounds: number;
+
+    @IsNumber()
+  payoutMultiplier: number;
+
+    @IsBoolean()
+  isInfinity: boolean;
 
     @Type(() => Date)
     @IsDate()

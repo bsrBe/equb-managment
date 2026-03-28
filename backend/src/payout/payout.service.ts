@@ -50,7 +50,7 @@ export class PayoutService {
   }
 
   private async processPayout(equb: Equb, member: EqubMember, periodId: string, adminId: string) {
-    const payoutAmount = await this.calculatePayoutAmount(equb.id, adminId, equb);
+    const payoutAmount = await this.calculatePayoutAmount(equb, member, adminId);
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -70,24 +70,7 @@ export class PayoutService {
       member.hasReceivedPayout = true;
       await queryRunner.manager.save(member);
 
-      // 1. Get total active members
-      const activeMembersCount = await queryRunner.manager.count(EqubMember, {
-        where: { equb: { id: equb.id }, isActive: true }
-      });
-
-      // 2. Get total payouts in this cycle (where hasReceivedPayout is true)
-      const paidMembersCount = await queryRunner.manager.count(EqubMember, {
-        where: { equb: { id: equb.id }, isActive: true, hasReceivedPayout: true }
-      });
-
-      if (paidMembersCount >= activeMembersCount) {
-        // Entire cycle finished
-        equb.status = 'COMPLETED';
-      } else {
-        equb.currentRound += 1;
-      }
-      
-      await queryRunner.manager.save(equb);
+      await this.updateEqubStatusAfterPayout(equb, queryRunner);
 
       await queryRunner.commitTransaction();
       return payout;
@@ -102,19 +85,119 @@ export class PayoutService {
     }
   }
 
-  private async calculatePayoutAmount(equbId: string, adminId: string, equb: Equb): Promise<number> {
-    // We need ALL members for the calculation, so we pass a large limit or use a different method.
-    // For now, let's use a large limit to ensure we get everyone.
-    const paginatedMembers = await this.equbMemberService.findByEqub(equbId, adminId, { page: 1, limit: 1000 } as PaginationParamsDto);
+  private async calculatePayoutAmount(equb: Equb, member: EqubMember, adminId: string): Promise<number> {
+    if (equb.type === 'DAILY') {
+      const baseAmount = Number(member.customContributionAmount || equb.defaultContributionAmount);
+      return baseAmount * (equb.payoutMultiplier || 100);
+    }
+
+    // For Weekly/Monthly – Pot calculation
+    const paginatedMembers = await this.equbMemberService.findByEqub(equb.id, adminId, { page: 1, limit: 1000 } as PaginationParamsDto);
     const members = paginatedMembers.data;
 
     const baseAmount = Number(equb.defaultContributionAmount);
-    return members.reduce((sum, member) => {
+    return members.reduce((sum, m) => {
       let multiplier = 1;
-      if (member.contributionType === 'HALF') multiplier = 0.5;
-      if (member.contributionType === 'QUARTER') multiplier = 0.25;
+      if (m.contributionType === 'HALF') multiplier = 0.5;
+      if (m.contributionType === 'QUARTER') multiplier = 0.25;
+      if (m.contributionType === 'CUSTOM') return sum + Number(m.customContributionAmount || 0);
       return sum + (baseAmount * multiplier);
     }, 0);
+  }
+
+  async recordMergedPayout(equbId: string, memberIds: string[], periodId: string, adminId: string) {
+    const equb = await this.equbService.findOne(equbId, adminId);
+    const members = await Promise.all(memberIds.map(id => this.equbMemberService.findOne(id, adminId)));
+    
+    // Validate members
+    for (const member of members) {
+      if (member.equb.id !== equbId) throw new BadRequestException(`Member ${member.id} does not belong to this Equb`);
+      if (member.hasReceivedPayout) throw new BadRequestException(`Member ${member.id} has already received payout`);
+      if (!member.isActive) throw new BadRequestException(`Member ${member.id} is not active`);
+    }
+
+    if (equb.type !== 'DAILY') {
+      // Check merging rules for Weekly/Monthly
+      const contributionTypes = members.map(m => m.contributionType);
+      const isHalfMerge = contributionTypes.every(t => t === 'HALF') && members.length === 2;
+      const isQuarterMerge = contributionTypes.every(t => t === 'QUARTER') && members.length === 4;
+
+      if (!isHalfMerge && !isQuarterMerge) {
+        throw new BadRequestException('Invalid merge: select 2 half-members or 4 quarter-members to settle a round');
+      }
+    }
+
+
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const payouts: Payout[] = [];
+      for (const member of members) {
+        let amount = 0;
+        if (equb.type === 'DAILY') {
+          // Each winner gets their own calculated payout (custom contribution * 100)
+          amount = await this.calculatePayoutAmount(equb, member, adminId);
+        } else {
+          // Weekly/Monthly - pot is shared
+          const totalPot = await this.calculatePayoutAmount(equb, members[0], adminId);
+          amount = totalPot / members.length;
+        }
+
+        const payout = this.payoutRepo.create({
+          equb: { id: equb.id },
+          member: { id: member.id },
+          amount: amount,
+          period: { id: periodId },
+          payoutDate: new Date(),
+        }) as Payout;
+        payouts.push(payout);
+        
+        member.hasReceivedPayout = true;
+        await queryRunner.manager.save(member);
+      }
+
+      await queryRunner.manager.save(payouts);
+
+      await this.updateEqubStatusAfterPayout(equb, queryRunner);
+
+      await queryRunner.commitTransaction();
+      return payouts;
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
+  private async updateEqubStatusAfterPayout(equb: Equb, queryRunner: any) {
+    const activeMembersCount = await queryRunner.manager.count(EqubMember, {
+      where: { equb: { id: equb.id }, isActive: true }
+    });
+
+    const paidMembersCount = await queryRunner.manager.count(EqubMember, {
+      where: { equb: { id: equb.id }, isActive: true, hasReceivedPayout: true }
+    });
+
+    if (paidMembersCount >= activeMembersCount) {
+      if (equb.isInfinity) {
+        // Reset for next round if infinite: mark all as not paid
+        await queryRunner.manager.update(EqubMember, 
+          { equb: { id: equb.id } }, 
+          { hasReceivedPayout: false }
+        );
+        equb.currentRound += 1;
+      } else {
+        // For non-infinite (Weekly/Monthly), mark as completed only if all planned payouts are done.
+        // If it's the "17 payouts in week 1" case, it might still have more payouts in following weeks.
+        // We'll keep it ACTIVE until the admin manually closes it or some other trigger.
+        // HOWEVER, if ALL members have received their payout, usually the Equb cycle is over.
+        equb.status = 'COMPLETED';
+      }
+    }
+    await queryRunner.manager.save(equb);
   }
 
   async findAll(

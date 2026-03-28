@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { CreateEqubDto } from './dto/create-equb.dto';
 import { UpdateEqubDto } from './dto/update-equb.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,18 +20,49 @@ export class EqubService {
   ) {}
 
   async create(createEqubDto: CreateEqubDto, adminId: string) {
+    const { totalRounds, payoutMultiplier, isInfinity, startDate, ...rest } = createEqubDto;
+    
     const equb = this.equbRepo.create({
-      ...createEqubDto,
+      ...rest,
       admin: { id: adminId },
-    });
+      startDate: (startDate || null) as any,
+      status: startDate ? 'ACTIVE' : 'PENDING',
+      totalRounds: totalRounds || (createEqubDto.type === 'DAILY' ? 105 : createEqubDto.type === 'WEEKLY' ? 74 : 0),
+      payoutMultiplier: payoutMultiplier || (createEqubDto.type === 'DAILY' ? 100 : 1),
+      isInfinity: isInfinity ?? (createEqubDto.type === 'DAILY' ? true : false),
+    }) as Equb;
+    
     const saved = await this.equbRepo.save(equb);
 
-    // Generate periods based on expectedMemberCount (default to 0 if not provided)
-    const numberOfPeriods = createEqubDto.expectedMemberCount || 0;
-    if (numberOfPeriods > 0) {
-      await this.generatePeriods(saved.id, saved.type, saved.startDate, numberOfPeriods);
+    // Generate periods if startDate is provided
+    if (saved.startDate) {
+      const numberOfPeriods = saved.totalRounds || createEqubDto.expectedMemberCount || 0;
+      if (numberOfPeriods > 0) {
+        await this.generatePeriods(saved.id, saved.type, saved.startDate, numberOfPeriods);
+      }
     }
     return this.findOne(saved.id, adminId);
+  }
+
+  /**
+   * Start an Equb by setting start date and changing status to ACTIVE
+   */
+  async startEqub(id: string, startDate: Date, adminId: string) {
+    const equb = await this.findOne(id, adminId);
+    if (equb.status !== 'PENDING') {
+      throw new BadRequestException('Equb is already started or completed');
+    }
+
+    equb.startDate = startDate;
+    equb.status = 'ACTIVE';
+    await this.equbRepo.save(equb);
+
+    const numberOfPeriods = equb.totalRounds || equb.members?.length || 0;
+    if (numberOfPeriods > 0) {
+      await this.generatePeriods(equb.id, equb.type, equb.startDate, numberOfPeriods);
+    }
+
+    return this.findOne(id, adminId);
   }
 
   /**
@@ -43,6 +74,9 @@ export class EqubService {
     startDate: Date,
     count: number
   ) {
+    // Clear existing periods first to avoid duplicates
+    await this.periodRepo.delete({ equb: { id: equbId } });
+
     const periods: Partial<Period>[] = [];
     const baseDate = new Date(startDate);
     for (let i = 1; i <= count; i++) {
@@ -154,15 +188,16 @@ export class EqubService {
   async findOne(id: string, adminId: string) {
     const equb = await this.equbRepo.findOne({
       where: { id, admin: { id: adminId } },
-      relations: ['members', 'members.user', 'periods', 'periods.payouts', 'periods.payouts.member.user'],
+      relations: ['members', 'members.user', 'members.attendances', 'periods', 'periods.payouts', 'periods.payouts.member.user'],
     });
     if (!equb) throw new NotFoundException('Equb not found');
 
-    // Lazy generate periods if they don't exist AND there are members
-    if ((!equb.periods || equb.periods.length === 0) && equb.members && equb.members.length > 0) {
-      await this.generatePeriods(equb.id, equb.type, equb.startDate, equb.members.length);
-      // Re-fetch to get periods
-      return this.findOne(id, adminId);
+    // Calculate contributionDays for members
+    if (equb.members) {
+      equb.members = equb.members.map(member => ({
+        ...member,
+        contributionDays: member.attendances?.filter(a => a.status === 'PAID').length || 0,
+      })) as any;
     }
 
     return equb;
@@ -170,9 +205,57 @@ export class EqubService {
 
   async update(id: string, updateEqubDto: UpdateEqubDto, adminId: string) {
     const equb = await this.findOne(id, adminId);
+    const oldTotalRounds = equb.totalRounds;
+    
     Object.assign(equb, updateEqubDto);
     await this.equbRepo.save(equb);
+
+    // If totalRounds has increased, generate the new periods
+    if (updateEqubDto.totalRounds && updateEqubDto.totalRounds > oldTotalRounds) {
+      const additionalCount = updateEqubDto.totalRounds - oldTotalRounds;
+      const lastPeriod = equb.periods?.sort((a, b) => b.sequence - a.sequence)[0];
+      const startSequence = (lastPeriod?.sequence || 0) + 1;
+      const baseDate = lastPeriod ? new Date(lastPeriod.startDate) : new Date(equb.startDate);
+      
+      // We need a version of generatePeriods that appends instead of clearing
+      await this.appendPeriods(equb.id, equb.type, baseDate, additionalCount, startSequence);
+    }
+
     return this.findOne(id, adminId);
+  }
+
+  /**
+   * Append additional periods to an existing Equb
+   */
+  private async appendPeriods(
+    equbId: string,
+    type: 'DAILY' | 'WEEKLY' | 'MONTHLY',
+    lastPeriodDate: Date,
+    count: number,
+    startSequence: number
+  ) {
+    const periods: Partial<Period>[] = [];
+    const baseDate = new Date(lastPeriodDate);
+    
+    for (let i = 0; i < count; i++) {
+        const sequence = startSequence + i;
+        const periodDate = new Date(baseDate);
+        
+        // Offset from the last record
+        const offset = i + 1;
+        if (type === 'DAILY') periodDate.setDate(baseDate.getDate() + offset);
+        if (type === 'WEEKLY') periodDate.setDate(baseDate.getDate() + offset * 7);
+        if (type === 'MONTHLY') periodDate.setMonth(baseDate.getMonth() + offset);
+
+        periods.push({
+            equbId,
+            sequence,
+            startDate: periodDate,
+            endDate: periodDate,
+            isCompleted: false,
+        });
+    }
+    await this.periodRepo.save(periods);
   }
 
   async remove(id: string, adminId: string) {

@@ -13,17 +13,27 @@ export class EqubMember {
     @JoinColumn({ name: 'equbId' })
     equb: Equb;
 
+    @Column({ nullable: true })
+    equbId: string;
+
     @ManyToOne(() => User, user => user.equbMemberships, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'userId' })
     user: User;
 
+    @Column({ nullable: true })
+    userId: string;
+
 
   @Column({
     type: 'enum',
-    enum: ['FULL', 'HALF', 'QUARTER'],
+    enum: ['FULL', 'HALF', 'QUARTER', 'CUSTOM'],
     default: 'FULL',
   })
-  contributionType: 'FULL' | 'HALF' | 'QUARTER';
+  contributionType: 'FULL' | 'HALF' | 'QUARTER' | 'CUSTOM';
+
+  @Column({ type: 'numeric', nullable: true })
+  customContributionAmount: number;
+
   @Column({ default: true })
   isActive: boolean;
 

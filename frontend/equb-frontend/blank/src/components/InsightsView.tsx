@@ -1,7 +1,8 @@
 import { IonIcon, IonSpinner } from '@ionic/react';
-import { trendingUp, time, people, cash, pieChart } from 'ionicons/icons';
+import { trendingUp, time, people, cash, pieChart, addOutline } from 'ionicons/icons';
 import { useState, useEffect } from 'react';
 import { reportingApi, EqubStats } from '../services/reportingApi';
+import { equbApi } from '../services/equbApi';
 
 interface InsightsViewProps {
     equbId: string;
@@ -10,26 +11,44 @@ interface InsightsViewProps {
 const InsightsView: React.FC<InsightsViewProps> = ({ equbId }) => {
     const [stats, setStats] = useState<EqubStats | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isExtending, setIsExtending] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                setIsLoading(true);
-                const data = await reportingApi.getEqubStats(equbId);
-                setStats(data);
-            } catch (err) {
-                console.error('Failed to fetch insights:', err);
-                setError('Failed to load insights');
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    const fetchStats = async () => {
+        try {
+            setIsLoading(true);
+            const data = await reportingApi.getEqubStats(equbId);
+            setStats(data);
+        } catch (err) {
+            console.error('Failed to fetch insights:', err);
+            setError('Failed to load insights');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
+    const handleExtend = async () => {
+        if (!stats || isExtending) return;
+
+        const extensionAmount = stats.equbType === 'DAILY' ? 30 : stats.equbType === 'WEEKLY' ? 12 : 6;
+        const newTotal = stats.activePeriods + extensionAmount;
+
+        try {
+            setIsExtending(true);
+            await equbApi.update(equbId, { totalRounds: newTotal });
+            await fetchStats();
+        } catch (err) {
+            console.error('Failed to extend equb:', err);
+        } finally {
+            setIsExtending(false);
+        }
+    };
+
+    useEffect(() => {
         fetchStats();
     }, [equbId]);
 
-    if (isLoading) {
+    if (isLoading && !stats) {
         return (
             <div className="flex justify-center items-center py-20">
                 <IonSpinner name="crescent" className="text-equb-primary" />
@@ -45,6 +64,11 @@ const InsightsView: React.FC<InsightsViewProps> = ({ equbId }) => {
         );
     }
 
+    const isDaily = stats.equbType === 'DAILY';
+    const progressWidth = isDaily
+        ? Math.round(((stats.recordedPeriodsCount || 0) / (stats.activePeriods || 1)) * 100)
+        : stats.completionPercentage;
+
     return (
         <div className="pb-24 pt-6 px-4 space-y-6">
             {/* Completion Card */}
@@ -52,18 +76,39 @@ const InsightsView: React.FC<InsightsViewProps> = ({ equbId }) => {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
 
                 <div className="relative z-10">
-                    <p className="text-white/80 font-medium mb-1">Overall Progress</p>
+                    <div className="flex justify-between items-start mb-1">
+                        <p className="text-white/80 font-medium">
+                            {isDaily ? 'Daily Performance' : 'Overall Progress'}
+                        </p>
+                        <button
+                            onClick={handleExtend}
+                            disabled={isExtending}
+                            className="flex items-center gap-1.5 px-3 py-1 bg-white/20 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white/30 transition-all active:scale-95 disabled:opacity-50"
+                        >
+                            {isExtending ? <IonSpinner name="dots" className="w-4 h-4" /> : <IonIcon icon={addOutline} />}
+                            Extend
+                        </button>
+                    </div>
                     <div className="flex items-end gap-2 mb-4">
-                        <h1 className="text-4xl font-black">{stats.completionPercentage}%</h1>
-                        <span className="text-white/80 mb-1.5 font-medium">Completed</span>
+                        <h1 className="text-4xl font-black">
+                            {isDaily ? stats.recordedPeriodsCount : `${stats.completionPercentage}%`}
+                        </h1>
+                        <span className="text-white/80 mb-1.5 font-medium">
+                            {isDaily ? 'Days Recorded' : 'Completed'}
+                        </span>
                     </div>
 
                     <div className="w-full bg-black/20 h-2 rounded-full overflow-hidden">
                         <div
                             className="h-full bg-white rounded-full transition-all duration-1000 ease-out"
-                            style={{ width: `${stats.completionPercentage}%` }}
+                            style={{ width: `${progressWidth}%` }}
                         />
                     </div>
+                    {isDaily && (
+                        <p className="mt-3 text-[10px] text-white/60 font-black uppercase tracking-widest">
+                            Goal: {stats.activePeriods} Days
+                        </p>
+                    )}
                 </div>
             </div>
 

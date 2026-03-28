@@ -9,6 +9,7 @@ interface AssignWinnerModalProps {
     onClose: () => void;
     onSuccess: (memberId: string) => void;
     equbId: string;
+    equbType: 'DAILY' | 'WEEKLY' | 'MONTHLY';
     periodId: string;
     currentRound: number;
     members: EqubMember[];
@@ -19,38 +20,70 @@ const AssignWinnerModal: React.FC<AssignWinnerModalProps> = ({
     onClose,
     onSuccess,
     equbId,
+    equbType,
     periodId,
     currentRound,
     members = []
 }) => {
     const [searchText, setSearchText] = useState('');
-    const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+    const [selectedMemberIds, setSelectedMemberIds] = useState<string[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Filter members logic
-    const filteredMembers = useMemo(() => {
-        return members.filter(member => {
-            const matchesSearch = member.user.name.toLowerCase().includes(searchText.toLowerCase());
-            // In a real scenario, we might filtering out already won members?
-            // For now, assume all members are visible but visually distinguished by status
-            return matchesSearch;
-        });
-    }, [members, searchText]);
+    const handleMemberToggle = (member: EqubMember) => {
+        if (selectedMemberIds.includes(member.id)) {
+            setSelectedMemberIds(prev => prev.filter(id => id !== member.id));
+        } else {
+            // Logic for multi-select
+            if (equbType === 'DAILY') {
+                // Unlimited multi-select for Daily
+                setSelectedMemberIds(prev => [...prev, member.id]);
+                return;
+            }
+
+            const firstSelected = members.find(m => m.id === selectedMemberIds[0]);
+
+            if (!firstSelected) {
+                setSelectedMemberIds([member.id]);
+            } else {
+                // Only allow multi-select for HALF/QUARTER for Weekly/Monthly
+                if (firstSelected.contributionType === 'FULL' || firstSelected.contributionType === 'CUSTOM') {
+                    setSelectedMemberIds([member.id]);
+                } else if (member.contributionType === firstSelected.contributionType) {
+                    const limit = firstSelected.contributionType === 'HALF' ? 2 : 4;
+                    if (selectedMemberIds.length < limit) {
+                        setSelectedMemberIds(prev => [...prev, member.id]);
+                    } else {
+                        setSelectedMemberIds([member.id]);
+                    }
+                } else {
+                    setSelectedMemberIds([member.id]);
+                }
+            }
+        }
+    }
 
     const handleConfirm = async () => {
-        if (!selectedMemberId) return;
+        if (selectedMemberIds.length === 0) return;
 
         setIsSubmitting(true);
         setError(null);
 
         try {
-            await equbApi.assignWinner({
-                equbId,
-                memberId: selectedMemberId,
-                periodId
-            });
-            onSuccess(selectedMemberId);
+            if (selectedMemberIds.length === 1) {
+                await equbApi.assignWinner({
+                    equbId,
+                    memberId: selectedMemberIds[0],
+                    periodId
+                });
+            } else {
+                await equbApi.mergePayout({
+                    equbId,
+                    memberIds: selectedMemberIds,
+                    periodId
+                });
+            }
+            onSuccess(selectedMemberIds[0]);
             onClose();
         } catch (err) {
             console.error(err);
@@ -99,6 +132,13 @@ const AssignWinnerModal: React.FC<AssignWinnerModalProps> = ({
     // For this implementation, I will treat all members as "Status" based on a mock or existing field.
     // Since `EqubMember` might not have `paymentStatus` yet, I'll simulate it or check `equb.types`.
 
+    const filteredMembers = useMemo(() => {
+        return members.filter(member => {
+            const matchesSearch = member.user.name.toLowerCase().includes(searchText.toLowerCase());
+            return matchesSearch && !member.hasReceivedPayout;
+        });
+    }, [members, searchText]);
+
     if (!isOpen) return null;
 
     return (
@@ -143,21 +183,19 @@ const AssignWinnerModal: React.FC<AssignWinnerModalProps> = ({
                 <div className="flex-1 overflow-y-auto px-6 bg-white min-h-0">
                     <div className="space-y-3 py-2 pb-4">
                         {filteredMembers.map((member) => {
-                            // Mocking status logic for visual fidelity to design
-                            // In real app, check `member.paymentStatus === 'PAID'`
-                            const isPaid = true; // defaulting to true for now to allow selection
-                            const amount = 300; // Mock amount
+                            const isSelected = selectedMemberIds.includes(member.id);
+                            const amount = member.customContributionAmount || 0; // Simplified for display
                             const initials = getInitials(member.user.name);
                             const colorClass = getColorClass(member.user.name);
 
                             return (
                                 <div
                                     key={member.id}
-                                    className={`flex items-center justify-between p-3 rounded-xl border transition-all cursor-pointer ${selectedMemberId === member.id
+                                    className={`flex items-center justify-between p-3 rounded-xl border transition-all cursor-pointer ${isSelected
                                         ? 'border-[#0df2f2] bg-[#0df2f2]/5'
                                         : 'border-gray-100 bg-gray-50/50 hover:bg-gray-100'
                                         }`}
-                                    onClick={() => isPaid && setSelectedMemberId(member.id)}
+                                    onClick={() => handleMemberToggle(member)}
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className={`h-10 w-10 rounded-full flex items-center justify-center font-bold text-sm ${colorClass}`}>
@@ -166,35 +204,25 @@ const AssignWinnerModal: React.FC<AssignWinnerModalProps> = ({
                                         <div>
                                             <p className="font-semibold text-sm text-[#111818]">{member.user.name}</p>
                                             <div className="flex items-center gap-1">
-                                                <span className={`w-2 h-2 rounded-full ${isPaid ? 'bg-green-500' : 'bg-amber-500'}`}></span>
                                                 <span className="text-[10px] text-[#608a8a]">
-                                                    {isPaid
-                                                        ? `Fully Paid (${amount}.00 ETB)`
-                                                        : `Partial`
-                                                    }
+                                                    {member.contributionType} • {member.contributionDays || 0} days contributed
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {isPaid ? (
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setSelectedMemberId(member.id);
-                                            }}
-                                            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${selectedMemberId === member.id
-                                                ? 'bg-[#007f80] text-white shadow-md'
-                                                : 'bg-[#007f80] text-white hover:bg-[#006666]'
-                                                }`}
-                                        >
-                                            {selectedMemberId === member.id ? 'Selected' : 'Select'}
-                                        </button>
-                                    ) : (
-                                        <button className="bg-gray-100 text-gray-400 px-4 py-1.5 rounded-lg text-xs font-bold cursor-not-allowed">
-                                            Ineligible
-                                        </button>
-                                    )}
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleMemberToggle(member);
+                                        }}
+                                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${isSelected
+                                            ? 'bg-[#007f80] text-white shadow-md'
+                                            : 'bg-[#F4F5F8] text-[#608A8A] hover:bg-gray-200'
+                                            }`}
+                                    >
+                                        {isSelected ? 'Selected' : 'Select'}
+                                    </button>
                                 </div>
                             );
                         })}
@@ -211,18 +239,39 @@ const AssignWinnerModal: React.FC<AssignWinnerModalProps> = ({
                 <div className="p-6 bg-white border-t border-gray-100 shrink-0">
                     <button
                         onClick={handleConfirm}
-                        disabled={!selectedMemberId || isSubmitting}
-                        className={`w-full py-5 rounded-3xl font-bold flex items-center justify-center gap-2 transition-all ${selectedMemberId
+                        disabled={selectedMemberIds.length === 0 || isSubmitting}
+                        className={`w-full py-5 rounded-3xl font-bold flex items-center justify-center gap-2 transition-all ${selectedMemberIds.length > 0
                             ? 'bg-[#007f80] text-white shadow-[0_12px_40px_rgb(0,127,128,0.3)] hover:bg-[#006666] active:scale-[0.98]'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                             }`}
                     >
-                        {isSubmitting ? <IonSpinner name="crescent" color="light" className="h-5 w-5" /> : <span className="text-xl">Confirm Selection</span>}
+                        {isSubmitting ? <IonSpinner name="crescent" color="light" className="h-5 w-5" /> : <span className="text-xl">Confirm Selection ({selectedMemberIds.length})</span>}
                     </button>
                 </div>
             </div>
         </div>
     );
+};
+
+// Helper functions (moved outside or re-added if they were deleted)
+const getInitials = (name: string) => {
+    return name
+        .split(' ')
+        .map(n => n[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2);
+};
+
+const getColorClass = (name: string) => {
+    const colors = [
+        'bg-purple-100 text-purple-600',
+        'bg-orange-100 text-orange-600',
+        'bg-blue-100 text-blue-600',
+        'bg-green-100 text-green-700',
+        'bg-primary/20 text-primary'
+    ];
+    return colors[name.length % colors.length];
 };
 
 export default AssignWinnerModal;

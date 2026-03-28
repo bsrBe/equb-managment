@@ -4,9 +4,12 @@ export interface Equb {
   name: string;
   type: 'DAILY' | 'WEEKLY' | 'MONTHLY';
   defaultContributionAmount: number;
-  startDate: string;
-  status: 'ACTIVE' | 'COMPLETED';
+  startDate?: string | null;
+  status: 'PENDING' | 'ACTIVE' | 'COMPLETED';
   currentRound: number;
+  totalRounds: number;
+  payoutMultiplier: number;
+  isInfinity: boolean;
   createdAt: string;
   members?: EqubMember[];
   periods?: Period[];
@@ -15,8 +18,11 @@ export interface Equb {
 export interface CreateEqubDto {
   name: string;
   type: 'DAILY' | 'WEEKLY' | 'MONTHLY';
-  startDate: string; // ISO date string
+  startDate?: string; // Optional for Weekly
   defaultContributionAmount: number;
+  totalRounds?: number;
+  payoutMultiplier?: number;
+  isInfinity?: boolean;
 }
 
 export interface UpdateEqubDto {
@@ -24,11 +30,14 @@ export interface UpdateEqubDto {
   type?: 'DAILY' | 'WEEKLY' | 'MONTHLY';
   startDate?: string;
   defaultContributionAmount?: number;
+  totalRounds?: number;
 }
 
 export interface EqubMember {
   id: string;
-  contributionType: 'FULL' | 'HALF' | 'QUARTER';
+  contributionType: 'FULL' | 'HALF' | 'QUARTER' | 'CUSTOM';
+  customContributionAmount?: number;
+  contributionDays?: number; // Added for Daily UI advisory
   isActive: boolean;
   hasReceivedPayout: boolean;
   user: {

@@ -16,14 +16,11 @@ function buildDataSourceOptions(): DataSourceOptions {
     return {
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      ssl: true,
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
+      ssl: {
+        rejectUnauthorized: false,
       },
       entities: [Admin, User, Equb, Attendance, EqubMember, Payout, Period],
-      synchronize: true,
+      synchronize: false,
     };
   }
 

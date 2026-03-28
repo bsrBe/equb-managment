@@ -16,19 +16,20 @@ export class ReportingService {
   ) {}
 
   async getDashboardStats(adminId: string) {
-    const adminEqubs = await this.equbRepo.find({ 
-      where: { admin: { id: adminId } },
-      relations: ['members', 'periods', 'periods.attendances']
-    });
+    const adminEqubs = await this.equbRepo.createQueryBuilder('equb')
+      .leftJoinAndSelect('equb.members', 'members')
+      .leftJoinAndSelect('equb.periods', 'periods', 'periods.sequence = equb.currentRound')
+      .leftJoinAndSelect('periods.attendances', 'attendances')
+      .leftJoinAndSelect('attendances.equbMember', 'attendanceMember')
+      .where('equb.adminId = :adminId', { adminId })
+      .getMany();
     
-    const totalEqubs = adminEqubs.length;
     const activeEqubs = adminEqubs.filter(e => e.status === 'ACTIVE').length;
 
     const totalMembers = await this.memberRepo.count({ 
       where: { equb: { admin: { id: adminId } } } 
     });
 
-    // Calculate goals and collections for the ACTIVE ROUND of each Equb
     let totalExpected = 0;
     let totalCollected = 0;
 
@@ -36,29 +37,32 @@ export class ReportingService {
         if (e.status !== 'ACTIVE') return;
         
         const base = Number(e.defaultContributionAmount);
-        const memberCount = e.members?.length || 0;
+        const currentPeriod = e.periods && e.periods.length > 0 ? e.periods[0] : null;
         
-        // Goal for this round
-        totalExpected += (base * memberCount);
-        
-        // Collection for this round
-        const currentPeriod = e.periods?.find(p => p.sequence === e.currentRound);
-        if (currentPeriod) {
-            const paidInPeriodCount = (currentPeriod.attendances || []).filter(a => a.status === 'PAID').length;
+        e.members?.forEach(m => {
+            // Calculate what this specific member SHOULD pay
+            let memberGoal = 0;
+            if (m.contributionType === 'CUSTOM') {
+                memberGoal = Number(m.customContributionAmount || 0);
+            } else {
+                let multiplier = 1;
+                if (m.contributionType === 'HALF') multiplier = 0.5;
+                if (m.contributionType === 'QUARTER') multiplier = 0.25;
+                memberGoal = base * multiplier;
+            }
             
-            // This is a simplification: assuming everyone has the same contribution weight based on e.defaultContributionAmount
-            // Actually, we should check each member's contributionType. 
-            // Let's do it more accurately:
-            e.members.forEach(m => {
-                const isPaid = (currentPeriod.attendances || []).find(a => a.equbMember?.id === m.id && a.status === 'PAID');
-                if (isPaid) {
-                    let multiplier = 1;
-                    if (m.contributionType === 'HALF') multiplier = 0.5;
-                    if (m.contributionType === 'QUARTER') multiplier = 0.25;
-                    totalCollected += (base * multiplier);
+            totalExpected += memberGoal;
+
+            // Check if they actually PAID in this period
+            if (currentPeriod) {
+                const paidAttendance = (currentPeriod.attendances || []).find(
+                    a => a.equbMember?.id === m.id && a.status === 'PAID'
+                );
+                if (paidAttendance) {
+                    totalCollected += memberGoal;
                 }
-            });
-        }
+            }
+        });
     });
 
     return {
@@ -81,16 +85,24 @@ export class ReportingService {
     const totalPeriods = equb.periods?.length || totalMembers;
     
     // totalContributions: sum of all PAID attendances for this equb
-    const paidAttendances = await this.attendanceRepo.find({
-      where: { equbMember: { equb: { id: equbId } }, status: 'PAID' },
-      relations: ['equbMember'],
-    });
+    const paidAttendances = await this.attendanceRepo
+      .createQueryBuilder('attendance')
+      .innerJoinAndSelect('attendance.equbMember', 'member')
+      .where('member.equbId = :equbId', { equbId })
+      .andWhere('attendance.status = :status', { status: 'PAID' })
+      .getMany();
 
     const totalContributions = paidAttendances.reduce((sum, att) => {
+      const member = att.equbMember;
+      if (member.contributionType === 'CUSTOM') {
+        return sum + Number(member.customContributionAmount || 0);
+      }
+      
       const base = Number(equb.defaultContributionAmount);
       let multiplier = 1;
-      if (att.equbMember.contributionType === 'HALF') multiplier = 0.5;
-      if (att.equbMember.contributionType === 'QUARTER') multiplier = 0.25;
+      if (member.contributionType === 'HALF') multiplier = 0.5;
+      if (member.contributionType === 'QUARTER') multiplier = 0.25;
+      
       return sum + (base * multiplier);
     }, 0);
 
@@ -118,6 +130,15 @@ export class ReportingService {
       : 100;
 
     const settledRounds = equb.status === 'COMPLETED' ? totalPeriods : Math.max(0, equb.currentRound - 1);
+    
+    // Calculate how many periods have at least one attendance record
+    const recordedPeriodsCount = await this.attendanceRepo
+      .createQueryBuilder('attendance')
+      .innerJoin('attendance.equbMember', 'member')
+      .where('member.equbId = :equbId', { equbId })
+      .select('COUNT(DISTINCT attendance.periodId)', 'count')
+      .getRawOne();
+
     const completionPercentage = Math.round((settledRounds / totalPeriods) * 100);
 
     return {
@@ -127,6 +148,8 @@ export class ReportingService {
       averageAttendance: Math.round(averageAttendance),
       totalMembers,
       activePeriods: totalPeriods,
+      recordedPeriodsCount: Number(recordedPeriodsCount?.count || 0),
+      equbType: equb.type,
     };
   }
 

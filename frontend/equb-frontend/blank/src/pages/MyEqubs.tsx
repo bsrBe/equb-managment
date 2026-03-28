@@ -171,7 +171,7 @@
 
 
 
-import { IonContent, IonPage, IonIcon } from '@ionic/react';
+import { IonContent, IonPage, IonIcon, useIonViewWillEnter } from '@ionic/react';
 import { add, person } from 'ionicons/icons'; // Added person icon
 import SearchBar from '../components/SearchBar';
 import EqubCard from '../components/EqubCard';
@@ -205,18 +205,21 @@ const MyEqubs: React.FC = () => {
         }
     };
 
-    useEffect(() => { fetchEqubs(); }, []);
+    useIonViewWillEnter(() => {
+        fetchEqubs();
+    });
 
     const filteredEqubs = equbs
         .filter(equb => equb.name.toLowerCase().includes(searchQuery.toLowerCase()))
         .filter(equb => {
             if (statusFilter === 'All') return true;
-            if (statusFilter === 'Active') return equb.status === 'ACTIVE';
+            if (statusFilter === 'Active') return equb.status === 'ACTIVE' || equb.status === 'PENDING';
             if (statusFilter === 'Completed') return equb.status === 'COMPLETED';
             return true;
         });
 
     const calculateProgress = (equb: Equb) => {
+        if (equb.status === 'PENDING') return 0;
         if (!equb.periods || equb.periods.length === 0) return 0;
         return Math.round((equb.currentRound / equb.periods.length) * 100);
     };
@@ -295,8 +298,10 @@ const MyEqubs: React.FC = () => {
                                         key={equb.id}
                                         id={equb.id}
                                         name={equb.name}
+                                        status={equb.status}
+                                        type={equb.type}
                                         currentRound={equb.currentRound}
-                                        totalRounds={equb.periods?.length || 12}
+                                        totalRounds={equb.periods?.length || equb.totalRounds || 12}
                                         progress={calculateProgress(equb)}
                                         onClick={() => history.push(`/equbs/${equb.id}`)}
                                     />

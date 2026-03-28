@@ -13,6 +13,9 @@ export class Equb {
   @JoinColumn({ name: 'adminId' })
   admin: Admin;
 
+  @Column({ nullable: true })
+  adminId: string;
+
 
   @OneToMany(() => EqubMember, em => em.equb)
   members: EqubMember[];
@@ -29,14 +32,23 @@ export class Equb {
   @Column('numeric')
   defaultContributionAmount: number;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: true })
   startDate: Date;
 
-  @Column({ default: 'ACTIVE' })
-  status: 'ACTIVE' | 'COMPLETED';
+  @Column({ type: 'enum', enum: ['PENDING', 'ACTIVE', 'COMPLETED'], default: 'PENDING' })
+  status: 'PENDING' | 'ACTIVE' | 'COMPLETED';
 
   @Column({ default: 1 })
   currentRound: number;
+
+  @Column({ default: 105 })
+  totalRounds: number;
+
+  @Column({ type: 'numeric', default: 100 })
+  payoutMultiplier: number;
+
+  @Column({ default: false })
+  isInfinity: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

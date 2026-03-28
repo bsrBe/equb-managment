@@ -30,6 +30,9 @@ const PayoutsView: React.FC<PayoutsViewProps> = ({ equb }) => {
 
     // Calculate total pool balance
     const totalPool = equb.members?.reduce((sum: number, member) => {
+        if (member.contributionType === 'CUSTOM') {
+            return sum + (Number(member.customContributionAmount) || 0);
+        }
         const base = Number(equb.defaultContributionAmount);
         let multiplier = 1;
         if (member.contributionType === 'HALF') multiplier = 0.5;
@@ -45,9 +48,15 @@ const PayoutsView: React.FC<PayoutsViewProps> = ({ equb }) => {
                     <p className="text-sm text-equb-text-gray font-medium mb-1">Total Pool Balance</p>
                     <h1 className="text-3xl font-bold text-primary">{totalPool.toLocaleString()} ETB</h1>
                     <div className="mt-4 flex items-center gap-2">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                            Round {equb.currentRound} of {equb.periods?.length || 0}
-                        </span>
+                        {equb.type !== 'DAILY' ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                                Round {equb.currentRound} of {equb.periods?.length || 0}
+                            </span>
+                        ) : (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#0bdada]/20 text-[#0bdada] uppercase tracking-wider">
+                                Dynamic Savings
+                            </span>
+                        )}
                         <span className="text-xs text-equb-text-gray">Status: {equb.status}</span>
                     </div>
                 </div>

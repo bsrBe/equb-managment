@@ -34,7 +34,9 @@ export class EqubMemberService {
       ...createEqubMemberDto,
       equb: { id: createEqubMemberDto.equbId },
       user: { id: createEqubMemberDto.userId },
-    });
+      contributionType: createEqubMemberDto.contributionType || 'FULL',
+      customContributionAmount: createEqubMemberDto.customContributionAmount || undefined,
+    }) as EqubMember;
     const saved = await this.equbMemberRepo.save(member);
     
     // Sync periods to match member count
@@ -152,13 +154,19 @@ export class EqubMemberService {
   }
 
   async getEligibleWinners(equbId: string, adminId: string) {
-    return await this.equbMemberRepo.find({
+    const members = await this.equbMemberRepo.find({
       where: { 
         equb: { id: equbId, admin: { id: adminId } }, 
         hasReceivedPayout: false, 
         isActive: true 
       },
+      relations: ['attendances'],
     });
+
+    return members.map(member => ({
+      ...member,
+      contributionDays: member.attendances?.filter(a => a.status === 'PAID').length || 0,
+    }));
   }
 
   async resetPayouts(equbId: string, adminId: string) {
