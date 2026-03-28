@@ -49,9 +49,16 @@ const AttendanceListItem: React.FC<AttendanceListItemProps> = ({ member, isPaid,
             ) : (
                 <button
                     onClick={() => onTogglePayment(member.id)}
-                    className="px-6 py-2.5 bg-equb-primary text-white rounded-lg text-sm font-extrabold shadow-lg shadow-equb-primary/20 active:scale-95 transition-all shrink-0"
-                >
-                    Pay
+                    className={`h-8 w-16 flex items-center justify-center transition-all shrink-0 text-xs font-bold !rounded-lg shadow-[0_4px_12px_-2px_rgba(0,128,128,0.4)] active:scale-95 ${isPaid
+                        ? 'bg-green-500 text-white shadow-none'
+                        : 'bg-[#008080] text-white'
+                        }`}
+                    style={{ borderRadius: '10px' }} >
+                    {isPaid ? (
+                        <IonIcon icon={checkmarkCircle} className="text-lg" />
+                    ) : (
+                        'Pay'
+                    )}
                 </button>
             )}
         </div>

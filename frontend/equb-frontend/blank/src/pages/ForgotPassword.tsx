@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { equbApi } from '../services/equbApi';
 import { ApiError } from '../types/equb.types';
+import { formatErrorMessage } from '../utils/errorUtils';
 
 const ForgotPassword: React.FC = () => {
     const history = useHistory();
@@ -42,7 +43,7 @@ const ForgotPassword: React.FC = () => {
                 history.push('/login');
             } else {
                 present({
-                    message: message || 'Admin not found for this phone number.',
+                    message: formatErrorMessage(err) || 'Admin not found for this phone number.',
                     duration: 3000,
                     color: 'danger',
                     position: 'top'
@@ -75,9 +76,8 @@ const ForgotPassword: React.FC = () => {
             history.replace('/login');
         } catch (err) {
             console.error(err);
-            const error = err as ApiError;
             present({
-                message: error.response?.data?.message || 'Incorrect answer. Please try again.',
+                message: formatErrorMessage(err) || 'Incorrect answer. Please try again.',
                 duration: 3000,
                 color: 'danger',
                 position: 'top'
@@ -138,7 +138,9 @@ const ForgotPassword: React.FC = () => {
                                 <button
                                     type="submit"
                                     disabled={isLoading}
-                                    className="w-full h-14 bg-[#007f80] text-white rounded-2xl font-bold text-lg active:scale-[0.98] transition-all shadow-lg shadow-[#007f80]/20 flex items-center justify-center gap-2"
+                                    /* Standardized to !rounded-2xl and our specific teal shadow glow */
+                                    className="w-full h-14 bg-[#008080] text-white !rounded-2xl font-bold text-lg shadow-[0_10px_25px_-5px_rgba(0,128,128,0.4)] active:scale-[0.97] transition-all flex items-center justify-center gap-2 disabled:bg-gray-200 disabled:text-gray-400"
+                                    style={{ borderRadius: '16px' }} // Consistency fix for Ionic
                                 >
                                     {isLoading ? 'Searching...' : 'Find Account'}
                                 </button>

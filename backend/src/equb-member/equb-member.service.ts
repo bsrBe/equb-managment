@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EqubMember } from './entities/equb-member.entity';
 import { Repository } from 'typeorm';
 import { Equb } from 'src/equb/entities/equb.entity';
+import { Attendance } from 'src/attendance/entities/attendance.entity';
 import { MemberFilterDto } from './dto/member-filter.dto';
 import { PaginationParamsDto } from 'src/common/dto/pagination.dto';
 import { PaginatedResponse } from 'src/common/interfaces/paginated-response.interface';
@@ -17,6 +18,8 @@ export class EqubMemberService {
     private readonly equbMemberRepo: Repository<EqubMember>,
     @InjectRepository(Equb)
     private readonly equbRepo: Repository<Equb>,
+    @InjectRepository(Attendance)
+    private readonly attendanceRepo: Repository<Attendance>,
     private readonly equbService: EqubService,
   ) {}
 
@@ -36,6 +39,31 @@ export class EqubMemberService {
     
     // Sync periods to match member count
     await this.equbService.ensurePeriodsMatchMembers(createEqubMemberDto.equbId, adminId);
+
+    // Retroactive marking: Mark as MISSED for all periods that have already ended
+    const equbWithPeriods = await this.equbRepo.findOne({
+      where: { id: createEqubMemberDto.equbId },
+      relations: ['periods'],
+    });
+
+    if (equbWithPeriods && equbWithPeriods.periods) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const pastPeriods = equbWithPeriods.periods.filter(p => new Date(p.endDate) < today);
+
+      if (pastPeriods.length > 0) {
+        const retroactiveAttendances = pastPeriods.map(period => 
+          this.attendanceRepo.create({
+            equbMember: { id: saved.id },
+            period: { id: period.id },
+            status: 'MISSED',
+            note: 'Late joiner - missed previous rounds',
+          })
+        );
+        await this.attendanceRepo.save(retroactiveAttendances);
+      }
+    }
     
     return this.findOne(saved.id, adminId);
   }

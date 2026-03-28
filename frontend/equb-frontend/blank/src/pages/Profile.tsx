@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { equbApi } from '../services/equbApi';
 import { Admin, ApiError } from '../types/equb.types';
+import { formatErrorMessage } from '../utils/errorUtils';
 import BottomNav from '../components/BottomNav';
 
 const Profile: React.FC = () => {
@@ -116,8 +117,7 @@ const Profile: React.FC = () => {
             fetchProfile();
         } catch (err) {
             console.error('Failed to update profile:', err);
-            const error = err as ApiError;
-            setToastMessage(error.response?.data?.message || 'Failed to update profile');
+            setToastMessage(formatErrorMessage(err));
             setShowToast(true);
         } finally {
             setIsUpdating(false);
@@ -143,8 +143,7 @@ const Profile: React.FC = () => {
             setSecurityForm({ password: '', question: '', answer: '' });
         } catch (err) {
             console.error('Failed to set security question:', err);
-            const error = err as ApiError;
-            setToastMessage(error.response?.data?.message || 'Failed to update security question');
+            setToastMessage(formatErrorMessage(err));
             setShowToast(true);
         } finally {
             setIsUpdating(false);
@@ -339,15 +338,17 @@ const Profile: React.FC = () => {
                             <button
                                 onClick={handleUpdateProfile}
                                 disabled={isUpdating}
-                                className="w-full h-14 bg-equb-primary text-white rounded-[20px] font-black shadow-lg shadow-equb-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:bg-gray-200 disabled:shadow-none"
+                                /* Changed rounded-[20px] to !rounded-2xl and font-black to font-bold */
+                                className="w-full h-14 bg-equb-primary text-white !rounded-2xl font-bold text-lg shadow-[0_10px_25px_-5px_rgba(0,128,128,0.4)] active:scale-[0.97] transition-all flex items-center justify-center gap-3 disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none"
+                                style={{ borderRadius: '16px' }} // Force the specific rounding for Ionic
                             >
                                 {isUpdating ? (
                                     <>
                                         <IonSpinner name="crescent" className="text-white h-5 w-5" />
-                                        <span>UPDATING...</span>
+                                        <span>Updating...</span>
                                     </>
                                 ) : (
-                                    'SAVE CHANGES'
+                                    'Save Changes'
                                 )}
                             </button>
                         </div>
@@ -412,15 +413,17 @@ const Profile: React.FC = () => {
                             <button
                                 onClick={handleSetSecurityQuestion}
                                 disabled={isUpdating}
-                                className="w-full h-14 bg-equb-primary text-white rounded-[20px] font-black shadow-lg shadow-equb-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:bg-gray-200 disabled:shadow-none"
+                                /* Standardized to !rounded-2xl and font-bold */
+                                className="w-full h-14 bg-equb-primary text-white !rounded-2xl font-bold text-lg shadow-[0_10px_25px_-5px_rgba(0,128,128,0.4)] active:scale-[0.97] transition-all flex items-center justify-center gap-3 disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none"
+                                style={{ borderRadius: '16px' }} // Ensures the corner shape is forced in Ionic
                             >
                                 {isUpdating ? (
                                     <>
                                         <IonSpinner name="crescent" className="text-white h-5 w-5" />
-                                        <span>SAVING...</span>
+                                        <span>Saving...</span>
                                     </>
                                 ) : (
-                                    'SAVE SECURITY QUESTION'
+                                    'Save Security Question'
                                 )}
                             </button>
                         </div>

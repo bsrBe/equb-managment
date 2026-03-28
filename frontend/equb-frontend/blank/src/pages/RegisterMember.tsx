@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { equbApi } from '../services/equbApi';
 import { ApiError } from '../types/equb.types';
+import { formatErrorMessage } from '../utils/errorUtils';
 
 const RegisterMember: React.FC = () => {
     const history = useHistory();
@@ -32,8 +33,7 @@ const RegisterMember: React.FC = () => {
             });
         } catch (err) {
             console.error('Registration error:', err);
-            const error = err as ApiError;
-            setError(error.response?.data?.message || 'This phone number is already registered to Abel Tesfaye');
+            setError(formatErrorMessage(err));
         } finally {
             setIsLoading(false);
         }
@@ -137,14 +137,15 @@ const RegisterMember: React.FC = () => {
                             <button
                                 onClick={handleSubmit}
                                 disabled={!name || !phone || isLoading}
-                                className={`w-full py-6 rounded-3xl font-extrabold text-xl transition-all shadow-xl flex items-center justify-center gap-3 ${!name || !phone || isLoading
-                                    ? 'bg-gray-100 text-gray-300 cursor-not-allowed shadow-none'
-                                    : 'bg-[#007f80] text-white hover:bg-[#006666] active:scale-[0.98] shadow-[#007f80]/20'
+                                className={`w-full h-14 !rounded-2xl font-bold text-lg transition-all flex items-center justify-center gap-3 ${!name || !phone || isLoading
+                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed shadow-none'
+                                        : 'bg-[#008080] text-white hover:bg-[#006666] active:scale-[0.97] shadow-[0_10px_25px_-5px_rgba(0,128,128,0.4)]'
                                     }`}
+                                style={{ borderRadius: '16px' }} // Inline backup for Ionic consistency
                             >
                                 {isLoading ? (
                                     <>
-                                        <IonSpinner name="crescent" color="light" className="h-6 w-6" />
+                                        <IonSpinner name="crescent" color="light" className="h-5 w-5" />
                                         <span>Registering...</span>
                                     </>
                                 ) : (

@@ -13,6 +13,7 @@ import RegistrationSuccess from './pages/RegistrationSuccess';
 import MemberInsights from './pages/MemberInsights';
 import ForgotPassword from './pages/ForgotPassword';
 import RegisterAdmin from './pages/RegisterAdmin';
+import NotFound from './pages/NotFound';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -71,7 +72,7 @@ const App: React.FC = () => (
         <Route exact path="/ledger">
           <Ledger />
         </Route>
-        <Route exact path="/setup">
+        <Route exact path="/profile">
           <Profile />
         </Route>
         <Route exact path="/members">
@@ -88,6 +89,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/">
           <Redirect to="/login" />
+        </Route>
+        <Route>
+          <NotFound />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

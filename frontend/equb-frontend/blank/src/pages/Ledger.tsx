@@ -40,7 +40,7 @@ const Ledger: React.FC = () => {
             <IonContent fullscreen>
                 <div className="bg-[#f5f8f8] min-h-screen pb-24 font-sans text-[#111818]">
                     {/* Header */}
-                    <div className="bg-white px-4 pt-6 pb-4 border-b border-gray-100 sticky top-0 z-10">
+                    <div className="bg-white px-4 pb-4 border-b border-gray-100 sticky top-0 z-10" style={{ paddingTop: 'calc(1.5rem + env(safe-area-inset-top))' }}>
                         <h1 className="text-3xl font-extrabold tracking-tight mb-6">Ledger</h1>
 
                         {/* Balance Card */}

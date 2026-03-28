@@ -3,6 +3,7 @@ import { wallet, eye, eyeOff } from 'ionicons/icons';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { formatErrorMessage } from '../utils/errorUtils';
 
 const Login: React.FC = () => {
     const history = useHistory();
@@ -34,17 +35,13 @@ const Login: React.FC = () => {
             localStorage.setItem('user', JSON.stringify(admin));
 
             if (!admin.securityQuestion) {
-                history.push('/setup', { forceSecurity: true });
+                history.push('/profile', { forceSecurity: true });
             } else {
                 history.push('/dashboard');
             }
         } catch (err) {
             console.error('Login error:', err);
-            let message = 'Login failed. Please check your credentials.';
-            if (axios.isAxiosError(err) && err.response?.data?.message) {
-                message = err.response.data.message;
-            }
-            setError(message);
+            setError(formatErrorMessage(err));
         } finally {
             setIsLoading(false);
         }
@@ -81,8 +78,11 @@ const Login: React.FC = () => {
 
                         {/* Error Message */}
                         {error && (
-                            <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600 text-center">
-                                {error}
+                            <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                                <div className="w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">!</div>
+                                <p className="text-sm font-semibold text-red-700 leading-tight">
+                                    {error}
+                                </p>
                             </div>
                         )}
 
@@ -144,13 +144,26 @@ const Login: React.FC = () => {
                             </div>
 
                             {/* Login Button */}
-                            <div className="pt-8">
+                            {/* <div className="pt-8">
                                 <button
                                     type="submit"
                                     disabled={isLoading}
                                     className="w-full bg-[#007f80] hover:bg-[#006666] text-white font-bold py-5 rounded-3xl shadow-[0_12px_40px_rgb(0,127,128,0.3)] transition-all active:scale-[0.96] flex items-center justify-center gap-2"
                                 >
                                     <span className="text-xl">
+                                        {isLoading ? 'Signing In...' : 'Login'}
+                                    </span>
+                                </button>
+                            </div> */}
+                            <div className="pt-8 px-4 w-full">
+                                <button
+                                    type="submit"
+                                    disabled={isLoading}
+                                    /* Added !rounded-2xl and h-14 to force the shape */
+                                    className="w-full h-14 bg-[#008080] hover:bg-[#006666] text-white font-bold !rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,128,128,0.4)] transition-all active:scale-[0.97] flex items-center justify-center"
+                                    style={{ borderRadius: '16px' }}
+                                >
+                                    <span className="text-lg">
                                         {isLoading ? 'Signing In...' : 'Login'}
                                     </span>
                                 </button>

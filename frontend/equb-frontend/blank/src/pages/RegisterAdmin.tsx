@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { equbApi } from '../services/equbApi';
 import { ApiError } from '../types/equb.types';
+import { formatErrorMessage } from '../utils/errorUtils';
 
 const RegisterAdmin: React.FC = () => {
     const history = useHistory();
@@ -37,8 +38,7 @@ const RegisterAdmin: React.FC = () => {
             history.push('/login');
         } catch (err) {
             console.error('Registration error:', err);
-            const error = err as ApiError;
-            setError(error.response?.data?.message || 'Failed to register admin');
+            setError(formatErrorMessage(err));
         } finally {
             setIsLoading(false);
         }
@@ -49,7 +49,7 @@ const RegisterAdmin: React.FC = () => {
             <IonContent fullscreen>
                 <div className="bg-white min-h-screen flex flex-col font-sans text-[#111818]">
                     {/* Header */}
-                    <header className="sticky top-0 z-10 flex items-center bg-white p-4 justify-between">
+                    <header className="sticky top-0 z-10 flex items-center bg-white p-4 justify-between" style={{ paddingTop: 'calc(1.5rem + env(safe-area-inset-top))' }}>
                         <button
                             onClick={() => history.push('/login')}
                             className="text-[#101818] flex size-10 shrink-0 items-center justify-center cursor-pointer hover:bg-gray-50 rounded-full transition-colors"
@@ -149,8 +149,11 @@ const RegisterAdmin: React.FC = () => {
                             </div>
 
                             {error && (
-                                <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg text-center">
-                                    {error}
+                                <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                                    <div className="w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">!</div>
+                                    <p className="text-sm font-semibold text-red-700 leading-tight">
+                                        {error}
+                                    </p>
                                 </div>
                             )}
 

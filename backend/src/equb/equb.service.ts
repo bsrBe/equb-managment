@@ -69,21 +69,37 @@ export class EqubService {
   async ensurePeriodsMatchMembers(equbId: string, adminId: string): Promise<void> {
     const equb = await this.findOne(equbId, adminId);
     const memberCount = equb.members?.length || 0;
-    const periodCount = equb.periods?.length || 0;
+    const existingPeriods = equb.periods || [];
+    const periodCount = existingPeriods.length;
 
     if (memberCount > periodCount) {
-      // Need to create more periods
-      const additionalPeriods = memberCount - periodCount;
-      await this.generatePeriods(
-        equb.id,
-        equb.type,
-        equb.startDate,
-        memberCount // Total count, generatePeriods will handle sequence numbers
-      );
+      const additionalCount = memberCount - periodCount;
+      const lastPeriod = existingPeriods.sort((a, b) => b.sequence - a.sequence)[0];
+      
+      const newPeriods: Partial<Period>[] = [];
+      const startDate = lastPeriod ? new Date(lastPeriod.startDate) : new Date(equb.startDate);
 
-      // Delete old periods and regenerate to avoid sequence conflicts
-      await this.periodRepo.delete({ equbId: equb.id });
-      await this.generatePeriods(equb.id, equb.type, equb.startDate, memberCount);
+      for (let i = 1; i <= additionalCount; i++) {
+        const nextSequence = periodCount + i;
+        const periodDate = new Date(startDate);
+        
+        // Offset from the last period's date
+        if (equb.type === 'DAILY') periodDate.setDate(startDate.getDate() + i);
+        if (equb.type === 'WEEKLY') periodDate.setDate(startDate.getDate() + i * 7);
+        if (equb.type === 'MONTHLY') periodDate.setMonth(startDate.getMonth() + i);
+
+        newPeriods.push({
+          equbId,
+          sequence: nextSequence,
+          startDate: periodDate,
+          endDate: periodDate,
+          isCompleted: false,
+        });
+      }
+
+      if (newPeriods.length > 0) {
+        await this.periodRepo.save(newPeriods);
+      }
     }
   }
 

@@ -6,14 +6,19 @@ interface ProgressCardProps {
 
 const ProgressCard: React.FC<ProgressCardProps> = ({ percentage = 0, current = 0, goal = 0 }) => {
     // SVG circle calculations
-    const radius = 75; // Reduced from 90
+    const radius = 75;
     const circumference = 2 * Math.PI * radius;
     const offset = circumference - (percentage / 100) * circumference;
 
     return (
-        <div className="bg-white rounded-lg p-6 shadow-sm mx-4 my-4">
+        <div className="bg-white !rounded-3xl p-6 shadow-xl border border-gray-50 mx-4 my-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {/* Title */}
+            <h3 className="text-center text-[11px] font-black text-[#a1bebe] uppercase tracking-[0.2em] mb-6">
+                Collection Progress
+            </h3>
+
             {/* Circular Progress */}
-            <div className="flex justify-center items-center mb-6">
+            <div className="flex justify-center items-center mb-8">
                 <div className="relative w-44 h-44">
                     <svg className="w-full h-full transform -rotate-90" viewBox="0 0 176 176">
                         {/* Background circle */}
@@ -21,8 +26,8 @@ const ProgressCard: React.FC<ProgressCardProps> = ({ percentage = 0, current = 0
                             cx="88"
                             cy="88"
                             r={radius}
-                            stroke="#E5E7EB"
-                            strokeWidth="10"
+                            stroke="#f4f8f8"
+                            strokeWidth="12"
                             fill="none"
                         />
                         {/* Progress circle */}
@@ -30,8 +35,8 @@ const ProgressCard: React.FC<ProgressCardProps> = ({ percentage = 0, current = 0
                             cx="88"
                             cy="88"
                             r={radius}
-                            stroke="var(--ion-color-primary)"
-                            strokeWidth="10"
+                            stroke="#008080"
+                            strokeWidth="12"
                             fill="none"
                             strokeDasharray={circumference}
                             strokeDashoffset={offset}
@@ -42,30 +47,25 @@ const ProgressCard: React.FC<ProgressCardProps> = ({ percentage = 0, current = 0
 
                     {/* Center text */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-3xl font-bold text-equb-text-dark">{Math.round(percentage)}%</span>
-                        <span className="text-[10px] font-medium text-equb-text-gray uppercase tracking-wider">COLLECTED</span>
+                        <span className="text-4xl font-black text-[#101818] tracking-tight">{Math.round(percentage)}%</span>
+                        <span className="text-[10px] font-black text-[#008080] uppercase tracking-widest mt-1">COLLECTED</span>
                     </div>
                 </div>
             </div>
 
-            {/* Title */}
-            <h3 className="text-center text-base font-semibold text-equb-text-dark mb-4">
-                Today's Collection Progress
-            </h3>
-
             {/* Stats row */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center bg-[#f8fafb] rounded-[24px] p-5 border border-gray-50">
                 <div className="flex flex-col">
-                    <span className="text-xs text-equb-text-gray uppercase tracking-wide">CURRENT</span>
-                    <span className="text-2xl font-bold text-equb-primary">
-                        {(current || 0).toLocaleString()} <span className="text-sm">ETB</span>
+                    <span className="text-[10px] text-[#608a8a] font-bold uppercase tracking-wider mb-1">CURRENT</span>
+                    <span className="text-xl font-black text-[#008080]">
+                        {(current || 0).toLocaleString()} <span className="text-xs font-bold opacity-60">ETB</span>
                     </span>
                 </div>
 
                 <div className="flex flex-col items-end">
-                    <span className="text-xs text-equb-text-gray uppercase tracking-wide">ROUND GOAL</span>
-                    <span className="text-2xl font-bold text-equb-text-dark">
-                        {(goal || 0).toLocaleString()} <span className="text-sm">ETB</span>
+                    <span className="text-[10px] text-[#608a8a] font-bold uppercase tracking-wider mb-1">ROUND GOAL</span>
+                    <span className="text-xl font-black text-[#101818]">
+                        {(goal || 0).toLocaleString()} <span className="text-xs font-bold opacity-40">ETB</span>
                     </span>
                 </div>
             </div>
@@ -74,3 +74,4 @@ const ProgressCard: React.FC<ProgressCardProps> = ({ percentage = 0, current = 0
 };
 
 export default ProgressCard;
+

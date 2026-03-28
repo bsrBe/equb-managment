@@ -226,16 +226,26 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                     {/* Footer */}
                     <div className="bg-white p-6 border-t border-gray-100">
                         <div className="flex gap-4">
-                            <button
+                            {/* <button
                                 onClick={handleClose}
                                 className="flex items-center justify-center bg-transparent border-2 border-equb-primary text-equb-primary font-bold rounded-full h-12 px-6 transition-all active:scale-[0.98] active:bg-equb-primary/5 flex-1"
+                            >
+                                Cancel
+                            </button> */}
+                            <button
+                                onClick={handleClose}
+                                /* Standardized to h-14, !rounded-2xl, and text-lg */
+                                className="flex items-center justify-center bg-transparent border-2 border-equb-primary text-equb-primary font-bold text-lg !rounded-2xl h-14 px-6 transition-all active:scale-[0.97] active:bg-equb-primary/5 flex-1"
+                                style={{ borderRadius: '16px' }} // Consistency fix for Ionic
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleAddMembers}
                                 disabled={selectedCount === 0 || isAdding}
-                                className="flex items-center justify-center bg-equb-primary text-white font-black rounded-full h-12 px-6 transition-all shadow-lg active:scale-[0.98] disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none disabled:cursor-not-allowed flex-1 gap-2"
+                                /* Standardized to h-14, !rounded-2xl, and font-bold */
+                                className="flex items-center justify-center bg-equb-primary text-white font-bold text-lg !rounded-2xl h-14 px-6 shadow-[0_10px_25px_-5px_rgba(0,128,128,0.4)] transition-all active:scale-[0.97] disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none disabled:cursor-not-allowed flex-1 gap-2"
+                                style={{ borderRadius: '16px' }} // Consistency fix for Ionic
                             >
                                 {isAdding ? (
                                     <>

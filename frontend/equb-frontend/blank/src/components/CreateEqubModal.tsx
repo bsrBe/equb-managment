@@ -3,6 +3,7 @@ import { close, helpCircleOutline, calendar, bulb, checkmark } from 'ionicons/ic
 import { useState } from 'react';
 import { CreateEqubDto, ApiError } from '../types/equb.types';
 import { equbApi } from '../services/equbApi';
+import { formatErrorMessage } from '../utils/errorUtils';
 
 interface CreateEqubModalProps {
     isOpen: boolean;
@@ -36,8 +37,7 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
             onSuccess();
             onClose();
         } catch (err) {
-            const error = err as ApiError;
-            setError(error.response?.data?.message || 'Failed to create equb');
+            setError(formatErrorMessage(err));
         } finally {
             setIsLoading(false);
         }
@@ -76,8 +76,11 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {error && (
-                        <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600">
-                            {error}
+                        <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                            <div className="w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">!</div>
+                            <p className="text-sm font-semibold text-red-700 leading-tight">
+                                {error}
+                            </p>
                         </div>
                     )}
 
@@ -193,7 +196,7 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
                 </form>
 
                 {/* Submit Button - Fixed at bottom */}
-                <div className="sticky bottom-0 p-4 bg-white/80 backdrop-blur-lg border-t border-gray-200 rounded-b-3xl">
+                {/* <div className="sticky bottom-0 p-4 bg-white/80 backdrop-blur-lg border-t border-gray-200 rounded-b-3xl">
                     <IonButton
                         expand="block"
                         type="submit"
@@ -201,6 +204,24 @@ const CreateEqubModal: React.FC<CreateEqubModalProps> = ({ isOpen, onClose, onSu
                         onClick={handleSubmit}
                         className="text-lg font-bold h-14"
                         style={{ '--background': '#0bdada', '--color': '#102222' }}
+                    >
+                        {isLoading ? 'Creating...' : 'Create New Equb'}
+                    </IonButton>
+                </div> */}
+                <div className="sticky bottom-0 p-4 bg-white/80 backdrop-blur-lg border-t border-gray-200 rounded-b-3xl">
+                    <IonButton
+                        expand="block"
+                        type="submit"
+                        disabled={isLoading}
+                        onClick={handleSubmit}
+                        className="h-14 text-lg" // Keeping height consistent with Login button
+                        style={{
+                            '--background': '#0bdada',
+                            '--color': '#102222',
+                            '--border-radius': '16px', // This is the fix for rounding IonButton
+                            '--box-shadow': '0 10px 20px -5px rgba(11, 218, 218, 0.4)', // Adds the glow
+                            'font-weight': '700'
+                        }}
                     >
                         {isLoading ? 'Creating...' : 'Create New Equb'}
                     </IonButton>

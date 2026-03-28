@@ -205,8 +205,8 @@ const EqubDetails: React.FC = () => {
             <IonContent fullscreen>
                 <div className="bg-[#f5f8f8] min-h-screen text-[#111818] font-sans pb-24">
                     {/* Sticky Top Bar */}
-                    <div className="sticky top-0 z-50 bg-white border-b border-gray-100">
-                        <div className="grid grid-cols-[40px_1fr_40px] items-center p-3 h-14">
+                    <div className="sticky top-0 z-50 bg-white border-b border-gray-100" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+                        <div className="grid grid-cols-[40px_1fr_40px] items-center px-3 py-2 h-16">
                             <button
                                 onClick={() => history.goBack()}
                                 className="flex w-9 h-9 items-center justify-center cursor-pointer hover:bg-gray-50 rounded-full transition-colors"
@@ -219,7 +219,9 @@ const EqubDetails: React.FC = () => {
                             <div className="flex justify-end">
                                 <button
                                     onClick={() => setIsAddMembersModalOpen(true)}
-                                    className="flex w-9 h-9 items-center justify-center cursor-pointer bg-equb-primary text-white rounded-full hover:shadow-lg transition-all active:scale-95"
+                                    /* Updated to !rounded-xl and added the signature teal shadow */
+                                    className="flex w-9 h-9 items-center justify-center cursor-pointer bg-equb-primary text-white !rounded-xl shadow-[0_4px_12px_-2px_rgba(0,128,128,0.4)] hover:shadow-lg transition-all active:scale-90"
+                                    style={{ borderRadius: '10px' }} // Proportional rounding for smaller buttons
                                 >
                                     <IonIcon icon={personAdd} className="text-base" />
                                 </button>
@@ -232,9 +234,7 @@ const EqubDetails: React.FC = () => {
                         <section className="bg-white p-4 border-b border-gray-100">
                             <div className="flex items-center justify-between pb-2">
                                 <h3 className="text-equb-text-dark text-xl font-bold tracking-tight">The Pulse</h3>
-                                <span className="px-2 py-1 bg-equb-primary/20 text-equb-primary text-[10px] font-bold rounded uppercase tracking-widest">
-                                    Live Audit
-                                </span>
+
                             </div>
                             {/* Collection Progress */}
                             <div className="flex flex-col gap-3 py-4 bg-[#f8fafb] rounded-2xl px-5 mt-2 border border-blue-50/50">
@@ -242,7 +242,7 @@ const EqubDetails: React.FC = () => {
                                     <div>
                                         <p className="text-equb-text-dark text-[10px] font-black uppercase tracking-widest mb-1 opacity-80">Overall Progress</p>
                                         <p className="text-equb-text-gray text-xs font-medium">
-                                            Round {equb.currentRound} of {equb.periods?.length || 12}
+                                            Round {equb.currentRound} of {equb.periods?.length}
                                         </p>
                                     </div>
                                     <p className="text-equb-text-dark text-2xl font-black leading-none">{progress}%</p>
@@ -263,7 +263,7 @@ const EqubDetails: React.FC = () => {
                         </section>
 
                         {/* Segmented Navigation */}
-                        <div className="sticky top-[73px] z-40 bg-white py-5 px-4 shadow-sm border-b border-gray-100">
+                        <div className="sticky top-[73px] z-40 bg-white py-5 px-4 shadow-sm border-b border-gray-100" style={{ top: 'calc(4rem + env(safe-area-inset-top))' }}>
                             <div className="grid grid-cols-3 gap-5 p-1">
                                 {(['Attendance', 'Payouts', 'Insights'] as TabType[]).map((tab) => (
                                     <button
@@ -421,7 +421,7 @@ const EqubDetails: React.FC = () => {
 
                     {/* Sticky Bottom CTA - Payout flow (moved from previous version) */}
                     {activeTab === 'Payouts' && (
-                        <div className="fixed bottom-[80px] left-0 right-0 p-4 bg-transparent flex justify-center z-40 pointer-events-none">
+                        <div className="fixed left-0 right-0 p-4 bg-transparent flex justify-center z-40 pointer-events-none" style={{ bottom: 'calc(100px + env(safe-area-inset-bottom))' }}>
                             <button
                                 onClick={() => setIsAssignWinnerModalOpen(true)}
                                 className="w-full max-w-md bg-equb-primary hover:bg-equb-primary-dark text-white font-bold py-5 rounded-3xl shadow-[0_12px_40px_rgba(0,127,128,0.4)] transition-all active:scale-[0.95] flex items-center justify-center gap-4 pointer-events-auto"

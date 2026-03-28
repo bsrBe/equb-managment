@@ -1,5 +1,5 @@
 import { IonIcon } from '@ionic/react';
-import { grid, apps, receipt, people, settings } from 'ionicons/icons';
+import { grid, apps, receipt, people, person } from 'ionicons/icons';
 import { useHistory, useLocation } from 'react-router-dom';
 
 const BottomNav: React.FC = () => {
@@ -11,7 +11,7 @@ const BottomNav: React.FC = () => {
         { path: '/equbs', icon: apps, label: 'EQUBS' },
         { path: '/members', icon: people, label: 'MEMBERS' },
         { path: '/ledger', icon: receipt, label: 'LEDGER' },
-        { path: '/setup', icon: settings, label: 'SETUP' },
+        { path: '/profile', icon: person, label: 'PROFILE' },
     ];
 
     const handleTabClick = (path: string) => {
@@ -19,7 +19,7 @@ const BottomNav: React.FC = () => {
     };
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-gray-100/50 z-50 pt-3 pb-6 px-4">
+        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-gray-100/50 z-50 pt-3 pb-8 px-4" style={{ paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))' }}>
             <div className="flex justify-around items-end max-w-md mx-auto">
                 {tabs.map((tab, index) => {
                     const isActive = location.pathname === tab.path;

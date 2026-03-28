@@ -6,11 +6,17 @@ import { AuthGuard } from '@nestjs/passport';
 import { PaginationParamsDto } from '../common/dto/pagination.dto';
 
 import { UserFilterDto } from './dto/user-filter.dto';
+import { EqubMemberService } from '../equb-member/equb-member.service';
+import { currentAdmin } from '../auth/decorators/current-admin.decorator';
+import { Admin } from '../admin/entities/admin.entity';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly equbMemberService: EqubMemberService,
+  ) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -25,6 +31,21 @@ export class UserController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
+  }
+  
+  @Get(':id/memberships')
+  async getMemberships(
+    @Param('id') id: string,
+    @currentAdmin() admin: Admin,
+    @Query('limit') limit?: number,
+  ) {
+    const response = await this.equbMemberService.findAll(admin.id, {
+      userId: id,
+      limit: limit || 1000,
+      page: 1,
+      skip: 0
+    });
+    return response.data;
   }
 
   @Patch(':id')

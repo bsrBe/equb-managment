@@ -50,12 +50,12 @@ const Members: React.FC = () => {
             <IonContent fullscreen>
                 <div className="bg-[#f5f8f8] min-h-screen text-[#111818] font-sans pb-24">
                     {/* Header */}
-                    <div className="bg-white p-6 pb-4 border-b border-gray-100">
+                    <div className="bg-white px-6 pb-4 border-b border-gray-100" style={{ paddingTop: 'calc(1.5rem + env(safe-area-inset-top))' }}>
                         <div className="flex items-center justify-between mb-6">
                             <h1 className="text-3xl font-extrabold tracking-tight">Members</h1>
                             <button
-                                onClick={() => history.push('/register-member')}
-                                className="w-12 h-12 rounded-2xl bg-[#007f80] text-white flex items-center justify-center shadow-lg hover:bg-[#006666] active:scale-95 transition-all"
+                                className="w-12 h-12 !rounded-2xl bg-[#008080] text-white flex items-center justify-center shadow-[0_8px_20px_-6px_rgba(0,128,128,0.5)] hover:bg-[#006666] active:scale-90 transition-all"
+                                style={{ borderRadius: '16px' }}
                             >
                                 <IonIcon icon={personAdd} className="text-2xl" />
                             </button>
@@ -133,7 +133,9 @@ const Members: React.FC = () => {
                                 <p className="text-gray-400 font-medium">No members found</p>
                                 <button
                                     onClick={() => history.push('/register-member')}
-                                    className="mt-6 px-6 py-3 bg-[#0bdada]/10 text-[#0bdada] font-bold rounded-2xl hover:bg-[#0bdada]/20 transition-all"
+                                    /* Standardized to w-full and h-14 to match the Login/Register buttons */
+                                    className="w-full h-14 mt-6 bg-[#0bdada]/10 text-[#0bdada] font-bold text-lg !rounded-2xl hover:bg-[#0bdada]/20 active:scale-[0.97] transition-all flex items-center justify-center"
+                                    style={{ borderRadius: '16px' }} // Consistency fix for Ionic
                                 >
                                     Add New Member
                                 </button>
